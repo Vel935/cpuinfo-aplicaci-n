@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1011687248688",
+    "project_id": "cpu-info-ed142",
+    "storage_bucket": "cpu-info-ed142.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011687248688:android:a3a5e0e5e91d092a266ef5",
+        "android_client_info": {
+          "package_name": "com.example.cpuinfo_application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGiTyHPDXf2LYvK-IMnU5w8BQHBwIwuVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
