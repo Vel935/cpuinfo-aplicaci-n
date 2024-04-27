@@ -1,4 +1,5 @@
 import 'package:cpuinfo_application/controller/cpuProvider.dart';
+import 'package:cpuinfo_application/controller/userProvider.dart';
 import 'package:cpuinfo_application/pages/loginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,6 +14,7 @@ void main() async {
   );
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(create: (_) => UserProvider()),
       ChangeNotifierProvider(create: (_) => CpuProvider()),
     ],
     child: MainApp(),
@@ -28,11 +30,17 @@ class MainApp extends StatelessWidget {
       title: "CPU INFO",
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(title: Text("CPU INFO")),
+        appBar: mainAppBar(),
         body: Center(
           child: LoginPage(),
         ),
       ),
     );
   }
+}
+
+AppBar mainAppBar() {
+  return AppBar(
+    title: const Text("CPU INFO"),
+  );
 }

@@ -1,54 +1,72 @@
+import 'package:cpuinfo_application/controller/userController.dart';
+import 'package:cpuinfo_application/controller/userProvider.dart';
+import 'package:cpuinfo_application/main.dart';
+import 'package:cpuinfo_application/models/user.dart';
+import 'package:cpuinfo_application/pages/loginPage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  RegisterPage({super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final GlobalKey<FormState> _key = GlobalKey();
+
+  User user = User.empty();
+
+  UserController _controller = UserController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            width: double.infinity,
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 65,
-                  left: 27,
-                  child: _textRegister(),
+        appBar: mainAppBar(),
+        body: Consumer<UserProvider>(builder: (_, contactProvider, child) {
+          return formUserRegister(contactProvider, context);
+        }));
+  }
+
+  Form formUserRegister(UserProvider provider, BuildContext context) {
+    return Form(
+        key: _key,
+        child: Column(
+          children: [
+            Positioned(
+              top: 65,
+              left: 27,
+              child: _textRegister(),
+            ),
+            Positioned(top: 51, left: -5, child: _iconBack()),
+
+            //HASTA ACA ES LA FORMA ROJA DE LA PARTE SUPERIOR DE LA PANTALLA QUE DICE REGISTRO DE AQUI EN ADELANTE
+            //ES EL FORMULARIO
+
+            Container(
+              width: double
+                  .infinity, //ancho del contenedor, el double.infinity me centra los elementos
+              margin: EdgeInsets.only(
+                  top: 50), //me da una margen en la parte de arriba de 150 px
+              child: SingleChildScrollView(
+                //este es un widget que permite hacer scrooll en la pantalla, es decir pasar hacia abajo o hacia arriba un grupo de elemento en este caso los de la columna de abajo, es un widget necesario cuando se tienen muchos elementos en cascada o ves varios elementos desde un celular con una pantalla pequeña
+                child: Column(
+                  children: [
+                    getLogo(), //funcion que me retorna el circulo donde va la imagen del usuario con una imagen predeterminada
+                    SizedBox(
+                      height: 20,
+                    ), //esto hace un espacio entre la circulo y el text field de abajo
+                    _textFieldEmail(), //esta funcion retorna un Campo de texto para ingresar el email
+                    _textFieldPassword(), //esta funcion retorna un campo de texto para ingresar la contraseña
+                    _buttonRegister(
+                        context) //esta funcion retorna un boton que tiene un texto adentro que dice REGISTRASE
+                  ],
                 ),
-                Positioned(top: 51, left: -5, child: _iconBack()),
-
-                //HASTA ACA ES LA FORMA ROJA DE LA PARTE SUPERIOR DE LA PANTALLA QUE DICE REGISTRO DE AQUI EN ADELANTE
-                //ES EL FORMULARIO
-
-                Container(
-                  width: double
-                      .infinity, //ancho del contenedor, el double.infinity me centra los elementos
-                  margin: EdgeInsets.only(
-                      top:
-                          150), //me da una margen en la parte de arriba de 150 px
-                  child: SingleChildScrollView(
-                    //este es un widget que permite hacer scrooll en la pantalla, es decir pasar hacia abajo o hacia arriba un grupo de elemento en este caso los de la columna de abajo, es un widget necesario cuando se tienen muchos elementos en cascada o ves varios elementos desde un celular con una pantalla pequeña
-                    child: Column(
-                      children: [
-                        getLogo(), //funcion que me retorna el circulo donde va la imagen del usuario con una imagen predeterminada
-                        SizedBox(
-                          height: 20,
-                        ), //esto hace un espacio entre la circulo y el text field de abajo
-                        _textFieldEmail(), //esta funcion retorna un Campo de texto para ingresar el email
-                        _textFieldPassword(), //esta funcion retorna un campo de texto para ingresar la contraseña
-                        _buttonRegister() //esta funcion retorna un boton que tiene un texto adentro que dice REGISTRASE
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            )));
-    ;
+              ),
+            )
+          ],
+        ));
   }
 
   Widget _textRegister() {
@@ -65,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ));
   }
 
-  Widget _buttonRegister() {
+  Widget _buttonRegister(BuildContext context) {
     //funcion que me genera el boton Ingresar
     return Container(
       width: double.infinity, //ancho del boton
@@ -73,7 +91,27 @@ class _RegisterPageState extends State<RegisterPage> {
           horizontal: 50,
           vertical: 20), //margen horizontal y vertical del boton
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            _controller.create({
+              'mail': user.mail,
+              'password': user.password,
+            }).then((id) {
+              print(id);
+            }).catchError((e) {
+              print(e);
+            });
+            //mostrar un mensaje de exito en el registro
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Usuario registrado con exito'),
+                duration: Duration(seconds: 5),
+              ),
+            );
+            Navigator.pop(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+            );
+          },
           // onPressed: _con
           //     .register, //cuando se presione el boton REGISTRARSE se ejecuta la funcion register del controlador
           child: Text('REGISTRARSE'),
@@ -104,7 +142,7 @@ class _RegisterPageState extends State<RegisterPage> {
           borderRadius: BorderRadius.circular(
               30) //este es el borde del text field, en este caso estamos redondenado el recuadro
           ),
-      child: TextField(
+      child: TextFormField(
         // controller: _con
         //     .emailController, //para mas info ir a login_page en la funcion paralela a esta en ese archivo
         keyboardType: TextInputType
@@ -126,6 +164,7 @@ class _RegisterPageState extends State<RegisterPage> {
           //     //esta propiedad sirve para modificar los estilos del hintext que vendria siendo el texto
           //     color: MyColors.primaryColorDark)
         ),
+        onChanged: (value) => user.mail = value,
       ),
     );
   }
@@ -142,7 +181,7 @@ class _RegisterPageState extends State<RegisterPage> {
             borderRadius: BorderRadius.circular(
                 30) //este es el borde del text field, en este caso estamos redondenado el recuadro
             ),
-        child: TextField(
+        child: TextFormField(
           // controller: _con.passwordController, //controlador de este TextField
           obscureText:
               true, //para ocultar lo que se escriba en este campo de texto, al escribir en ves de letras se muestran puntos
@@ -163,6 +202,7 @@ class _RegisterPageState extends State<RegisterPage> {
             //     //esta propiedad sirve para modificar los estilos del hintext que vendria siendo el texto
             //     color: MyColors.primaryColorDark)),
           ),
+          onChanged: (value) => user.password = value,
         ));
   }
 
