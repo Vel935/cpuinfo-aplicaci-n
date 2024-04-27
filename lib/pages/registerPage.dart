@@ -107,6 +107,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 duration: Duration(seconds: 5),
               ),
             );
+            //hacer print de todos los usuarios
+            //_controller.getAll().then((users) {
+            //  users.forEach((element) {
+            //    print(element.mail);
+            //  });
+            //});
             Navigator.pop(
               context,
               MaterialPageRoute(builder: (context) => const LoginPage()),

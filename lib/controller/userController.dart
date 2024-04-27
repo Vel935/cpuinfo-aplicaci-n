@@ -32,4 +32,24 @@ class UserController {
   Future<void> remove(String id) async {
     await db.collection(collection).doc(id).delete();
   }
+
+  //metodo para obtener todos los usuarios
+  Future<List<User>> getAll() async {
+    QuerySnapshot querySnapshot = await db.collection(collection).get();
+    List<User> users = [];
+    querySnapshot.docs.forEach((element) {
+      users.add(User.fromMap(element.data() as Map<String, dynamic>));
+    });
+    return users;
+  }
+
+  //metodo que recibe un string y lo compara con el password, si es igual retorna true
+  Future<bool> login(String mail, String password) async {
+    QuerySnapshot querySnapshot = await db
+        .collection(collection)
+        .where('mail', isEqualTo: mail)
+        .where('password', isEqualTo: password)
+        .get();
+    return querySnapshot.docs.isNotEmpty;
+  }
 }
