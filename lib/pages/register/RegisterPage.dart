@@ -1,7 +1,5 @@
-import 'package:cpuinfo_application/controllers/userController.dart';
 import 'package:cpuinfo_application/main.dart';
 import 'package:cpuinfo_application/models/user.dart';
-import 'package:cpuinfo_application/pages/login/LoginPage.dart';
 import 'package:cpuinfo_application/pages/register/RegisterController.dart';
 import 'package:cpuinfo_application/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
@@ -16,21 +14,17 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> _key = GlobalKey();
-
   User user = User.empty();
-
-  RegisterController controller = RegisterController.empty();
+  late RegisterController controller;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: mainAppBar(),
-        body: Consumer<UserProvider>(builder: (_, contactProvider, child) {
-          return formUserRegister(contactProvider, context);
-        }));
+    controller = RegisterController(key: _key, context: context);
+
+    return Scaffold(appBar: mainAppBar(), body: formUserRegister(context));
   }
 
-  Form formUserRegister(UserProvider provider, BuildContext context) {
+  Form formUserRegister(BuildContext context) {
     return Form(
         key: _key,
         child: Column(
@@ -97,37 +91,14 @@ class _RegisterPageState extends State<RegisterPage> {
             }).catchError((e) {
               print(e);
             });
-
-            //mostrar un mensaje de exito en el registro
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Usuario registrado con exito'),
-                duration: Duration(seconds: 5),
-              ),
-            );
-            //hacer print de todos los usuarios
-            //_controller.getAll().then((users) {
-            //  users.forEach((element) {
-            //    print(element.mail);
-            //  });
-            //});
-            Navigator.pop(
-              context,
-              MaterialPageRoute(builder: (context) => LoginPage()),
-            );
           },
-          // onPressed: _con
-          //     .register, //cuando se presione el boton REGISTRARSE se ejecuta la funcion register del controlador
           child: Text('REGISTRARSE'),
           style: ElevatedButton.styleFrom(
-              //elevated buttom tiene una propiedad llamada style
-              // primary: MyColors
-              //     .primaryColor, //esto cambia el color del boton llamando a la clase que creamos con anterioridad
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
                       30) //con esto redondeamos la forma del boton
                   ),
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                   vertical:
                       15) //margen interior para el boton, esto puede modificar la forma del boton
               )),
@@ -135,79 +106,43 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _textFieldEmail() {
-    //funcion que me genera un TextFiled para ingresar el Email
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-      //margen horizontal del TextFile
+      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
-          //el container tiene una propiedad decoration
-          // color: MyColors.primaryOpacityColor,
-          //este es el color de fondo del recuadro del textfield
-          borderRadius: BorderRadius.circular(
-              30) //este es el borde del text field, en este caso estamos redondenado el recuadro
-          ),
+        borderRadius: BorderRadius.circular(30),
+      ),
       child: TextFormField(
-        // controller: _con
-        //     .emailController, //para mas info ir a login_page en la funcion paralela a esta en ese archivo
-        keyboardType: TextInputType
-            .emailAddress, //para mas info ir a login_page en la funcion paralela a esta en ese archivo
+        keyboardType: TextInputType.emailAddress,
         decoration: const InputDecoration(
-          hintText: 'Correo electronico',
+          hintText: 'Correo electrónico',
           border: InputBorder.none,
-          //esto elimina el borde que hay en la parte inferior del reacuadro del textfield
           contentPadding: EdgeInsets.all(15),
-          //este es el margen que hay entre el reacuadro del textfield y el texto de adentro, en este caso hay un margen en todas las direcciones de 15 px
-          prefixIcon: Icon(
-            Icons.email,
-            //el  decoration  del child de textfield tiene esta propiedad que permite poner iconos en este caso usamos un icono de email y este se pone de forma predeterminada antes del texto "correo electronico"
-            //para mas iconos buscar en google  icons material e ingresar a la pagina "Material Icons (Google) - Google Fonts"
-            // color: MyColors
-            //     .primaryColor //esto me cambia el color del icono, de forma predeterminada es gris
-          ),
-          // hintStyle: TextStyle(
-          //     //esta propiedad sirve para modificar los estilos del hintext que vendria siendo el texto
-          //     color: MyColors.primaryColorDark)
+          prefixIcon: Icon(Icons.email),
         ),
         onChanged: (value) => user.mail = value,
+        validator: controller.validEmailField, // Aquí se asigna el validador
       ),
     );
   }
 
   Widget _textFieldPassword() {
-    //funcion que me genera un TextFiled para ingresar el Email
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-        //margen horizontal del TextFile
-        decoration: BoxDecoration(
-            //el container tiene una propiedad decoration
-            // color: MyColors.primaryOpacityColor,
-            //este es el color de fondo del recuadro del textfield
-            borderRadius: BorderRadius.circular(
-                30) //este es el borde del text field, en este caso estamos redondenado el recuadro
-            ),
-        child: TextFormField(
-          // controller: _con.passwordController, //controlador de este TextField
-          obscureText:
-              true, //para ocultar lo que se escriba en este campo de texto, al escribir en ves de letras se muestran puntos
-          decoration: const InputDecoration(
-            hintText: 'Contraseña',
-            border: InputBorder.none,
-            //esto elimina el borde que hay en la parte inferior del reacuadro del textfield
-            contentPadding: EdgeInsets.all(15),
-            //este es el margen que hay entre el reacuadro del textfield y el texto de adentro, en este caso hay un margen en todas las direcciones de 15 px
-            prefixIcon: Icon(
-              Icons.lock,
-              //el  decoration  del child de textfield tiene esta propiedad que permite poner iconos en este caso usamos un icono de email y este se pone de forma predeterminada antes del texto "correo electronico"
-              //para mas iconos buscar en google  icons material e ingresar a la pagina "Material Icons (Google) - Google Fonts"
-              // color: MyColors
-              //     .primaryColor //esto me cambia el color del icono, de forma predeterminada es gris
-            ),
-            // hintStyle: TextStyle(
-            //     //esta propiedad sirve para modificar los estilos del hintext que vendria siendo el texto
-            //     color: MyColors.primaryColorDark)),
-          ),
-          onChanged: (value) => user.password = value,
-        ));
+      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: TextFormField(
+        obscureText: true,
+        decoration: const InputDecoration(
+          hintText: 'Contraseña',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(15),
+          prefixIcon: Icon(Icons.lock),
+        ),
+        onChanged: (value) => user.password = value,
+        validator: controller.validPasswordField, // Aquí se asigna el validador
+      ),
+    );
   }
 
   Widget getLogo() {
@@ -223,8 +158,8 @@ class _RegisterPageState extends State<RegisterPage> {
     return IconButton(
         //esta es una propiedad(creo) que recibe un evento onPressed y un icono, esta propiedad permite hacer botones con forma de iconos
         onPressed:
-            () {}, // onPressed: _con.back, //cuando presiones el boton se retroce a la pagina anterior en este caso el login
-        icon: Icon(Icons.arrow_back_ios,
+            () {}, //cuando presiones el boton se retroce a la pagina anterior en este caso el login
+        icon: const Icon(Icons.arrow_back_ios,
             color: Colors
                 .white) //la propiedad icon recibe el icono que en este caso es una flecha (Icons.arrow_back_ios), y opcionalmente el color de este, en este caso es blanco
         );

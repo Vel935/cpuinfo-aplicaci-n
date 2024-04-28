@@ -19,16 +19,15 @@ class _LoginPageState extends State<LoginPage> {
 
   User user = User.empty();
 
-  LoginController controller = LoginController.empty();
+  late LoginController controller;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Consumer<UserProvider>(builder: (_, provider, child) {
-      return formLogin(provider, context);
-    }));
+    controller = LoginController(key: _key, context: context);
+    return Scaffold(body: formLogin(context));
   }
 
-  Form formLogin(UserProvider provider, BuildContext context) {
+  Form formLogin(BuildContext context) {
     return Form(
         key: _key,
         child: Container(
@@ -79,72 +78,41 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget textFieldEmail() {
-    //funcion que me genera un TextFiled para ingresar el Email
     return Container(
-      margin: const EdgeInsets.symmetric(
-          horizontal: 50, vertical: 5), //margen horizontal del TextFile
+      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
-          //el container tiene una propiedad decartion
-          // color: MyColors.primaryOpacityColor, //este es el color de fondo del recuadro del textfield
-          borderRadius: BorderRadius.circular(
-              30) //este es el borde del text field, en este caso estamos redondenado el recuadro
-          ),
+        borderRadius: BorderRadius.circular(30),
+      ),
       child: TextFormField(
-        onChanged: (value) => user.mail = value,
-        keyboardType: TextInputType
-            .emailAddress, //esto genera un arroba en el teclado cuando vaya a escribir algo sobre este textField
+        keyboardType: TextInputType.emailAddress,
         decoration: const InputDecoration(
-            hintText: 'Correo electronico',
-            border: InputBorder
-                .none, //esto elimina el borde que hay en la parte inferior del reacuadro del textfield
-            contentPadding: EdgeInsets.all(
-                15), //este es el margen que hay entre el reacuadro del textfield y el texto de adentro, en este caso hay un margen en todas las direcciones de 15 px
-            prefixIcon: Icon(
-              Icons
-                  .email, //el  decoration  del child de textfield tiene esta propiedad que permite poner iconos en este caso usamos un icono de email y este se pone de forma predeterminada antes del texto "correo electronico"
-              //para mas iconos buscar en google  icons material e ingresar a la pagina "Material Icons (Google) - Google Fonts"
-              // color: MyColors.primaryColor //esto me cambia el color del icono, de forma predeterminada es gris
-            ),
-            hintStyle: TextStyle(
-                //esta propiedad sirve para modificar los estilos del hintext que vendria siendo el texto
-                // color: MyColors.primaryColorDark
-                )),
+          hintText: 'Correo electrónico',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(15),
+          prefixIcon: Icon(Icons.email),
+        ),
+        onChanged: (value) => user.mail = value,
+        validator: controller.validEmailField, // Aquí se asigna el validador
       ),
     );
   }
 
   Widget textFieldPassword() {
-    //funcion que me genera un TextField para ingresar la contraseña
     return Container(
-      margin: const EdgeInsets.symmetric(
-          horizontal: 50, vertical: 5), //margen horizontal del TextFile
+      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
-          //el container tiene una propiedad decartion
-          // color: MyColors.primaryOpacityColor, //este es el color de fondo del recuadro del textfield
-          borderRadius: BorderRadius.circular(
-              30) //este es el borde del text field, en este caso estamos redondenado el recuadro
-          ),
+        borderRadius: BorderRadius.circular(30),
+      ),
       child: TextFormField(
-        onChanged: (value) => user.password = value,
-        // controller: _con.passwordController,
-        obscureText:
-            true, //esto sirve para que el texto del textfield se oculte cuando escribamos en el, en vez de ir mostrandonos letras se nos muestra circulitos
+        obscureText: true,
         decoration: const InputDecoration(
-            hintText: 'Contraseña',
-            border: InputBorder
-                .none, //esto elimina el borde que hay en la parte inferior del reacuadro del textfield
-            contentPadding: EdgeInsets.all(
-                15), //este es el margen que hay entre el reacuadro del textfield y el texto de adentro, en este caso hay un margen en todas las direcciones de 15 px
-            prefixIcon: Icon(
-              Icons
-                  .lock, //el  decoration  del child de textfield tiene esta propiedad que permite poner iconos en este caso usamos un icono de un candado y este se pone de forma predeterminada antes del texto "contraseña"
-              //para mas iconos buscar en google  icons material e ingresar a la pagina "Material Icons (Google) - Google Fonts"
-              // color: MyColors.primaryColor //esto me cambia el color del icono, de forma predeterminada es gris
-            ),
-            hintStyle: TextStyle(
-                //esta propiedad sirve para modificar los estilos del hintext que vendria siendo el texto
-                // color: MyColors.primaryColorDark
-                )),
+          hintText: 'Contraseña',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(15),
+          prefixIcon: Icon(Icons.lock),
+        ),
+        onChanged: (value) => user.password = value,
+        validator: controller.validField, // Aquí se asigna el validador
       ),
     );
   }
@@ -180,9 +148,14 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> userValidation() async {
     print(controller.login(user.mail, user.password));
     if (await controller.login(user.mail, user.password)) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => FirstPage()));
+      Navigator.pushNamed(context, "firstPage");
     } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Usuario no existe'),
+          duration: Duration(seconds: 5),
+        ),
+      );
       print('Usuario no encontrado');
     }
   }
@@ -204,11 +177,8 @@ class _LoginPageState extends State<LoginPage> {
 
           onTap: () {
             //onTap es un evento donde se puede definir que codigo se va a ejecutar  si se cliquea el texto
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        RegisterPage())); //esto sirve para navegar a otra pantalla, el metodo pide un contexto y una ruta, el contexto (vive de manera global en nuestra clase) lo dejamos igual y en la ruta ponemos a que pagina se va a dirijir al hacer click dependiendo de las rutas definidas en el main
+            Navigator.pushNamed(context,
+                "register"); //esto sirve para navegar a otra pantalla, el metodo pide un contexto y una ruta, el contexto (vive de manera global en nuestra clase) lo dejamos igual y en la ruta ponemos a que pagina se va a dirijir al hacer click dependiendo de las rutas definidas en el main
             //el codigo  de aqui arriba ha sido movido a un metodo del archivo login_controller
           },
           child: const Text(

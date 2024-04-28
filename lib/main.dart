@@ -1,8 +1,10 @@
 import 'package:cpuinfo_application/controllers/cpuProvider.dart';
+import 'package:cpuinfo_application/pages/firstPage.dart';
+import 'package:cpuinfo_application/pages/register/RegisterPage.dart';
 import 'package:cpuinfo_application/providers/UserProvider.dart';
 import 'package:cpuinfo_application/pages/login/LoginPage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cpuinfo_application/firebase_options.dart';
 import 'package:provider/provider.dart';
@@ -22,13 +24,21 @@ void main() async {
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  MainApp({super.key});
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      key: navigatorKey,
       title: "CPU INFO",
       debugShowCheckedModeBanner: false,
+      initialRoute: "login",
+      routes: {
+        "login": (context) => LoginPage(),
+        "register": (context) => RegisterPage(),
+        "firstPage": (context) => FirstPage()
+      },
       home: Scaffold(
         appBar: mainAppBar(),
         body: Center(
