@@ -50,6 +50,10 @@ class UserController {
         .where('mail', isEqualTo: mail)
         .where('password', isEqualTo: password)
         .get();
-    return querySnapshot.docs.isNotEmpty;
+    if (querySnapshot.docs.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

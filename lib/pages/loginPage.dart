@@ -1,52 +1,71 @@
+import 'package:cpuinfo_application/controller/userController.dart';
+import 'package:cpuinfo_application/controller/userProvider.dart';
+import 'package:cpuinfo_application/models/user.dart';
+import 'package:cpuinfo_application/pages/firstPage.dart';
 import 'package:cpuinfo_application/pages/registerPage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<FormState> _key = GlobalKey();
+
+  User user = User.empty();
+
+  final UserController _controller = UserController();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-      width: double
-          .infinity, //le damos un ancho al contenedor, este ancho tiempo un ancho de toda la pantalla, como no sabemos los pixeles exactos que tiene usamos el double.infinity
-      child: Stack(
-        children: [
-          Positioned(
-            top: 60,
-            left: 25,
-            child: textLogin(),
-          ),
-          SingleChildScrollView(
-            child: Column(
-              //ocupamos la columna para poner elementos uno debajo del otro
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                //aqui adentro de children pondremos todo el contenido de la columna
-                //_imageBanner(), //llamamos al metodo que nos muestra la imagen que aparece en la pantalla
-                Container(
-                  child: getLogo(),
+    return Scaffold(body: Consumer<UserProvider>(builder: (_, provider, child) {
+      return formLogin(provider, context);
+    }));
+  }
+
+  Form formLogin(UserProvider provider, BuildContext context) {
+    return Form(
+        key: _key,
+        child: Container(
+          width: double
+              .infinity, //le damos un ancho al contenedor, este ancho tiempo un ancho de toda la pantalla, como no sabemos los pixeles exactos que tiene usamos el double.infinity
+          child: Stack(
+            children: [
+              Positioned(
+                top: 60,
+                left: 25,
+                child: textLogin(),
+              ),
+              SingleChildScrollView(
+                child: Column(
+                  //ocupamos la columna para poner elementos uno debajo del otro
+                  //mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //aqui adentro de children pondremos todo el contenido de la columna
+                    //_imageBanner(), //llamamos al metodo que nos muestra la imagen que aparece en la pantalla
+                    Container(
+                      child: getLogo(),
+                    ),
+                    textFieldEmail(), //metodo que genera un espacio para ingresar informacion (TextField), en este caso el correo
+                    textFieldPassword(), //metodo que genera un campo de texto para ingresar la contraseña
+                    buttonLogin(), //Metodo que genera un boton para enviar los datos, en este caso se llama ingresar
+                    textDontHaveAccount(
+                        context) //metodo que genera dos textos en una fila "no tienes cuenta" y "registrate"
+                  ],
                 ),
-                textFieldEmail(), //metodo que genera un espacio para ingresar informacion (TextField), en este caso el correo
-                textFieldPassword(), //metodo que genera un campo de texto para ingresar la contraseña
-                buttonLogin(), //Metodo que genera un boton para enviar los datos, en este caso se llama ingresar
-                textDontHaveAccount() //metodo que genera dos textos en una fila "no tienes cuenta" y "registrate"
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
-    ));
+        ));
   }
 
   Widget textLogin() {
     //funcion que retorna un texto que dice LOGIN
-    return Text('LOGIN',
+    return const Text('LOGIN',
         style: TextStyle(
             //text tiene una propiedad llamada style, que permite modificar los estilos del texto
             color: Colors.white, //esto cambia el color del texto
@@ -61,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget textFieldEmail() {
     //funcion que me genera un TextFiled para ingresar el Email
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
           horizontal: 50, vertical: 5), //margen horizontal del TextFile
       decoration: BoxDecoration(
           //el container tiene una propiedad decartion
@@ -69,10 +88,11 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(
               30) //este es el borde del text field, en este caso estamos redondenado el recuadro
           ),
-      child: TextField(
+      child: TextFormField(
+        onChanged: (value) => user.mail = value,
         keyboardType: TextInputType
             .emailAddress, //esto genera un arroba en el teclado cuando vaya a escribir algo sobre este textField
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             hintText: 'Correo electronico',
             border: InputBorder
                 .none, //esto elimina el borde que hay en la parte inferior del reacuadro del textfield
@@ -95,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget textFieldPassword() {
     //funcion que me genera un TextField para ingresar la contraseña
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
           horizontal: 50, vertical: 5), //margen horizontal del TextFile
       decoration: BoxDecoration(
           //el container tiene una propiedad decartion
@@ -103,11 +123,12 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(
               30) //este es el borde del text field, en este caso estamos redondenado el recuadro
           ),
-      child: TextField(
+      child: TextFormField(
+        onChanged: (value) => user.password = value,
         // controller: _con.passwordController,
         obscureText:
             true, //esto sirve para que el texto del textfield se oculte cuando escribamos en el, en vez de ir mostrandonos letras se nos muestra circulitos
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             hintText: 'Contraseña',
             border: InputBorder
                 .none, //esto elimina el borde que hay en la parte inferior del reacuadro del textfield
@@ -131,12 +152,14 @@ class _LoginPageState extends State<LoginPage> {
     //funcion que me genera el boton Ingresar
     return Container(
       width: double.infinity, //ancho del boton
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
           horizontal: 50,
           vertical: 20), //margen horizontal y vertical del boton
       child: ElevatedButton(
-          onPressed:
-              () {}, // onPressed: _con.login, //esto es para que cuando se presione el boton INGRESAR se llame a la funcion "login" del controlador
+          onPressed: () {
+            //si cuando se llama la funcion de login retorna true, entonces se navega a la pagina de home
+            userValidation();
+          }, // onPressed: _con.login, //esto es para que cuando se presione el boton INGRESAR se llame a la funcion "login" del controlador
           child: Text('INGRESAR'),
           style: ElevatedButton.styleFrom(
               //elevated buttom tiene una propiedad llamada style
@@ -145,23 +168,33 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(
                       30) //con esto redondeamos la forma del boton
                   ),
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                   vertical:
                       15) //margen interior para el boton, esto puede modificar la forma del boton
               )),
     );
   }
 
-  Widget textDontHaveAccount() {
+  Future<void> userValidation() async {
+    print(_controller.login(user.mail, user.password));
+    if (await _controller.login(user.mail, user.password)) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => FirstPage()));
+    } else {
+      print('Usuario no encontrado');
+    }
+  }
+
+  Widget textDontHaveAccount(BuildContext context) {
     //metodo que genera dos textos en una fila
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('¿No tienes cuenta?',
+        const Text('¿No tienes cuenta?',
             style: TextStyle(
                 // color: MyColors.primaryColor
                 )),
-        SizedBox(width: 7),
+        const SizedBox(width: 7),
         GestureDetector(
           //este es un widget que envuelve a el texto 'Registrate' para lograr que sea un texto cliqueable
           // onTap: _con.goToRegisterPage, //aqui usamos el objeto _con, que es una instancia del controlador login_controller, para usar un metodo que abre la ruta de la pagina de registro, para mas informacion leer abajito
@@ -175,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                         RegisterPage())); //esto sirve para navegar a otra pantalla, el metodo pide un contexto y una ruta, el contexto (vive de manera global en nuestra clase) lo dejamos igual y en la ruta ponemos a que pagina se va a dirijir al hacer click dependiendo de las rutas definidas en el main
             //el codigo  de aqui arriba ha sido movido a un metodo del archivo login_controller
           },
-          child: Text(
+          child: const Text(
             'Registrate',
             style: TextStyle(
               //accedemos a la propiedad style de Text

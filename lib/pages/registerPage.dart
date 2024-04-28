@@ -115,7 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
             //});
             Navigator.pop(
               context,
-              MaterialPageRoute(builder: (context) => const LoginPage()),
+              MaterialPageRoute(builder: (context) => LoginPage()),
             );
           },
           // onPressed: _con
