@@ -1,8 +1,9 @@
-import 'package:cpuinfo_application/controller/userController.dart';
-import 'package:cpuinfo_application/controller/userProvider.dart';
 import 'package:cpuinfo_application/models/user.dart';
 import 'package:cpuinfo_application/pages/firstPage.dart';
-import 'package:cpuinfo_application/pages/registerPage.dart';
+import 'package:cpuinfo_application/pages/login/LoginController.dart';
+import 'package:cpuinfo_application/pages/register/RegisterPage.dart';
+import 'package:cpuinfo_application/providers/UserProvider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
 
   User user = User.empty();
 
-  final UserController _controller = UserController();
+  LoginController controller = LoginController.empty();
 
   @override
   Widget build(BuildContext context) {
@@ -175,9 +176,10 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+//____________________________
   Future<void> userValidation() async {
-    print(_controller.login(user.mail, user.password));
-    if (await _controller.login(user.mail, user.password)) {
+    print(controller.login(user.mail, user.password));
+    if (await controller.login(user.mail, user.password)) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => FirstPage()));
     } else {
@@ -185,6 +187,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+//_____________________________________
   Widget textDontHaveAccount(BuildContext context) {
     //metodo que genera dos textos en una fila
     return Row(

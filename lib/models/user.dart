@@ -10,6 +10,7 @@ class User {
     mail = "";
     password = "";
   }
+
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       mail: map['mail'],

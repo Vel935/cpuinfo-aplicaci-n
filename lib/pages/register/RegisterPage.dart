@@ -1,8 +1,9 @@
-import 'package:cpuinfo_application/controller/userController.dart';
-import 'package:cpuinfo_application/controller/userProvider.dart';
+import 'package:cpuinfo_application/controllers/userController.dart';
 import 'package:cpuinfo_application/main.dart';
 import 'package:cpuinfo_application/models/user.dart';
-import 'package:cpuinfo_application/pages/loginPage.dart';
+import 'package:cpuinfo_application/pages/login/LoginPage.dart';
+import 'package:cpuinfo_application/pages/register/RegisterController.dart';
+import 'package:cpuinfo_application/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   User user = User.empty();
 
-  UserController _controller = UserController();
+  RegisterController controller = RegisterController.empty();
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +41,6 @@ class _RegisterPageState extends State<RegisterPage> {
               child: _textRegister(),
             ),
             Positioned(top: 51, left: -5, child: _iconBack()),
-
-            //HASTA ACA ES LA FORMA ROJA DE LA PARTE SUPERIOR DE LA PANTALLA QUE DICE REGISTRO DE AQUI EN ADELANTE
-            //ES EL FORMULARIO
-
             Container(
               width: double
                   .infinity, //ancho del contenedor, el double.infinity me centra los elementos
@@ -71,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _textRegister() {
     //funcion que retorna un texto que dice LOGIN
-    return Text(' REGISTRO',
+    return const Text(' REGISTRO',
         style: TextStyle(
             //text tiene una propiedad llamada style, que permite modificar los estilos del texto
             color: Colors.white, //esto cambia el color del texto
@@ -92,7 +89,7 @@ class _RegisterPageState extends State<RegisterPage> {
           vertical: 20), //margen horizontal y vertical del boton
       child: ElevatedButton(
           onPressed: () {
-            _controller.create({
+            controller.createUser({
               'mail': user.mail,
               'password': user.password,
             }).then((id) {
@@ -100,6 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
             }).catchError((e) {
               print(e);
             });
+
             //mostrar un mensaje de exito en el registro
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -153,7 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
         //     .emailController, //para mas info ir a login_page en la funcion paralela a esta en ese archivo
         keyboardType: TextInputType
             .emailAddress, //para mas info ir a login_page en la funcion paralela a esta en ese archivo
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           hintText: 'Correo electronico',
           border: InputBorder.none,
           //esto elimina el borde que hay en la parte inferior del reacuadro del textfield
@@ -191,7 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
           // controller: _con.passwordController, //controlador de este TextField
           obscureText:
               true, //para ocultar lo que se escriba en este campo de texto, al escribir en ves de letras se muestran puntos
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Contraseña',
             border: InputBorder.none,
             //esto elimina el borde que hay en la parte inferior del reacuadro del textfield

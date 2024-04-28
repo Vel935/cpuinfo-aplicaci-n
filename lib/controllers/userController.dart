@@ -1,19 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cpuinfo_application/controller/userProvider.dart';
+import 'package:cpuinfo_application/providers/UserProvider.dart';
 import 'package:cpuinfo_application/models/user.dart';
 import 'package:flutter/material.dart';
 
-User newTask(String mail, String password) {
-  return User(mail: mail, password: password);
-}
+// User newTask(String mail, String password) {
+//   return User(mail: mail, password: password);
+// }
 
-void saveUser(GlobalKey<FormState> _key, User user, UserProvider provider) {
-  // Valido el formulario
-  if (_key.currentState!.validate()) {
-    // Agregar a la lista del provider
-    provider.addUser(user);
-  }
-}
+// void saveUser(GlobalKey<FormState> _key, User user, UserProvider provider) {
+//   // Valido el formulario
+//   if (_key.currentState!.validate()) {
+//     // Agregar a la lista del provider
+//     provider.addUser(user);
+//   }
+// }
 
 class UserController {
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -50,10 +50,6 @@ class UserController {
         .where('mail', isEqualTo: mail)
         .where('password', isEqualTo: password)
         .get();
-    if (querySnapshot.docs.isNotEmpty) {
-      return true;
-    } else {
-      return false;
-    }
+    return querySnapshot.docs.isNotEmpty;
   }
 }

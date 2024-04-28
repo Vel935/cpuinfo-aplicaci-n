@@ -1,6 +1,6 @@
-import 'package:cpuinfo_application/controller/cpuProvider.dart';
-import 'package:cpuinfo_application/controller/userProvider.dart';
-import 'package:cpuinfo_application/pages/loginPage.dart';
+import 'package:cpuinfo_application/controllers/cpuProvider.dart';
+import 'package:cpuinfo_application/providers/UserProvider.dart';
+import 'package:cpuinfo_application/pages/login/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_core/firebase_core.dart';
