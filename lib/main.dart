@@ -1,6 +1,7 @@
+import 'package:cpuinfo_application/pages/firstPage/firstPage.dart';
+import 'package:cpuinfo_application/pages/homePage/homePage.dart';
 import 'package:cpuinfo_application/providers/cpuProvider.dart';
 import 'package:cpuinfo_application/pages/comparator/ComparatorAddPage.dart';
-import 'package:cpuinfo_application/pages/firstPage.dart';
 import 'package:cpuinfo_application/pages/register/RegisterPage.dart';
 import 'package:cpuinfo_application/providers/UserProvider.dart';
 import 'package:cpuinfo_application/pages/login/LoginPage.dart';
@@ -34,12 +35,13 @@ class MainApp extends StatelessWidget {
       key: navigatorKey,
       title: "CPU INFO",
       debugShowCheckedModeBanner: false,
-      initialRoute: "comparatormenu",
+      initialRoute: "login",
       routes: {
         "login": (BuildContext context) => LoginPage(),
         "register": (context) => RegisterPage(),
         "firstPage": (context) => FirstPage(),
-        "comparatormenu": (context) => ComparatorAddPage()
+        "home": (context) => HomePage(),
+        "comparatormenu": (context) => const ComparatorAddPage()
       },
     );
   }

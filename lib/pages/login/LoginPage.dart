@@ -1,6 +1,5 @@
 import 'package:cpuinfo_application/main.dart';
 import 'package:cpuinfo_application/models/user.dart';
-import 'package:cpuinfo_application/pages/firstPage.dart';
 import 'package:cpuinfo_application/pages/login/LoginController.dart';
 import 'package:cpuinfo_application/pages/register/RegisterPage.dart';
 import 'package:cpuinfo_application/providers/UserProvider.dart';
