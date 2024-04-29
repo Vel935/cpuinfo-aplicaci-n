@@ -57,7 +57,7 @@ class ComparatorAddPage extends StatelessWidget {
             left: MediaQuery.of(context).size.width / 2 - 60,
             child: ElevatedButton(
               onPressed: () {},
-              child: Text('Botón Central'),
+              child: Text('Comparar!'),
             ),
           ),
         ],

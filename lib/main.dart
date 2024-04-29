@@ -1,4 +1,4 @@
-import 'package:cpuinfo_application/controllers/cpuProvider.dart';
+import 'package:cpuinfo_application/providers/cpuProvider.dart';
 import 'package:cpuinfo_application/pages/comparator/ComparatorAddPage.dart';
 import 'package:cpuinfo_application/pages/firstPage.dart';
 import 'package:cpuinfo_application/pages/register/RegisterPage.dart';
