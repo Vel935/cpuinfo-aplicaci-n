@@ -1,3 +1,4 @@
+import 'package:cpuinfo_application/main.dart';
 import 'package:cpuinfo_application/models/user.dart';
 import 'package:cpuinfo_application/pages/firstPage.dart';
 import 'package:cpuinfo_application/pages/login/LoginController.dart';
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     controller = LoginController(key: _key, context: context);
-    return Scaffold(body: formLogin(context));
+    return Scaffold(appBar: mainAppBar(), body: formLogin(context));
   }
 
   Form formLogin(BuildContext context) {
