@@ -6,7 +6,6 @@ import 'package:cpuinfo_application/pages/register/RegisterPage.dart';
 import 'package:cpuinfo_application/providers/UserProvider.dart';
 import 'package:cpuinfo_application/pages/login/LoginPage.dart';
 import 'package:flutter/material.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cpuinfo_application/firebase_options.dart';
 import 'package:provider/provider.dart';
