@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cpuinfo_application/models/cpus.dart';
 import 'package:flutter/foundation.dart';
 
 class CpuProvider extends ChangeNotifier {
