@@ -66,6 +66,23 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 10), // Separación entre los botones
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            style: homeButtonStyle(),
+                            onPressed: () {
+                              Navigator.pushNamed(context, "cpuCrudPage");
+                            },
+                            child: Text(
+                              'Modificar CPU',
+                              style: homeTextButtonStyle(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

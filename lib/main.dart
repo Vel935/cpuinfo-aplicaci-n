@@ -1,3 +1,5 @@
+import 'package:cpuinfo_application/pages/cpuCrud/addCpuPage/addCpuPage.dart';
+import 'package:cpuinfo_application/pages/cpuCrud/cpuCrudPage.dart';
 import 'package:cpuinfo_application/pages/firstPage/firstPage.dart';
 import 'package:cpuinfo_application/pages/homePage/homePage.dart';
 import 'package:cpuinfo_application/providers/cpuProvider.dart';
@@ -34,13 +36,15 @@ class MainApp extends StatelessWidget {
       key: navigatorKey,
       title: "CPU INFO",
       debugShowCheckedModeBanner: false,
-      initialRoute: "login",
+      initialRoute: "home",
       routes: {
         "login": (BuildContext context) => LoginPage(),
         "register": (context) => RegisterPage(),
         "firstPage": (context) => FirstPage(),
         "home": (context) => HomePage(),
-        "comparatormenu": (context) => const ComparatorAddPage()
+        "comparatormenu": (context) => const ComparatorAddPage(),
+        "cpuCrudPage": (context) => cpuCrudPage(),
+        "addCPU": (context) => CreateCpuPage(),
       },
     );
   }
@@ -48,6 +52,7 @@ class MainApp extends StatelessWidget {
 
 AppBar mainAppBar() {
   return AppBar(
-    title: const Text("CPU INFO"),
+    backgroundColor: const Color(0xFF353535),
+    title: const Text("CPU INFO", style: TextStyle(color: Colors.white)),
   );
 }

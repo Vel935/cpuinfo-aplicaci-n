@@ -1,29 +1,26 @@
-import 'package:cpuinfo_application/models/cpus.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class CpuProvider extends ChangeNotifier {
-  // Lista privada
-  List<Cpu> _cpus = [];
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
-// Lista pública
-  List<Cpu> get cpus => _cpus;
+  final String collection = 'processors';
 
-  addCpu(Cpu cpu) {
-    _cpus.add(cpu);
+  Future<String> createCPU(Map<String, dynamic> cpu) async {
+    // Generate custom ID based on brand, family, and model
+    String brand = cpu['brand'];
+    String family = cpu['family'];
+    String model = cpu['model'];
+    String customId = '$brand $family $model';
+
+    // Add custom ID to CPU data
+    cpu['id'] = customId;
+
+    // Add CPU to Firestore with custom ID
+    await db.collection(collection).doc(customId).set(cpu);
+
     notifyListeners();
-  }
 
-  void deleteCpu(Cpu cpu) {
-    _cpus.remove(cpu);
-    notifyListeners();
-  }
-
-  void changeVisibility(Cpu cpu) {
-    if (cpu.visible == true) {
-      cpu.visible = false;
-    } else {
-      cpu.visible = true;
-    }
-    notifyListeners();
+    return customId;
   }
 }
