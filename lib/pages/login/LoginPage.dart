@@ -149,6 +149,7 @@ class _LoginPageState extends State<LoginPage> {
     print(controller.login(user.mail, user.password));
     if (await controller.login(user.mail, user.password)) {
       Navigator.pushNamed(context, "firstPage");
+      //Navigator.popAndPushNamed(context, 'firstPage');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

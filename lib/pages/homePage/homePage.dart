@@ -38,7 +38,9 @@ class HomePage extends StatelessWidget {
                         Expanded(
                           child: ElevatedButton(
                             style: homeButtonStyle(),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, 'comparatormenu');
+                            },
                             child: Text(
                               'Comparar',
                               style: homeTextButtonStyle(),
@@ -55,6 +57,7 @@ class HomePage extends StatelessWidget {
                           child: ElevatedButton(
                             style: homeButtonStyle(),
                             onPressed: () {
+                              Navigator.pushNamed(context, 'viewAllProcessors');
                               // Acción para el botón "Ver"
                               // Puedes agregar aquí la navegación o acción deseada
                             },
