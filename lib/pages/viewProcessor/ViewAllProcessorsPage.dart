@@ -17,8 +17,21 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
     'AMD',
     'Intel',
     'Desktop'
-        ''
   ]; // Etiquetas disponibles
+  List<String> availableFamilies = []; // Familias disponibles
+
+  @override
+  void initState() {
+    super.initState();
+    loadFamilies(); // Cargar familias al iniciar la página
+  }
+
+  Future<void> loadFamilies() async {
+    List<String> families = await cpuController.getProcessorFamilies();
+    setState(() {
+      availableFamilies = families;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +70,7 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                 DropdownButton(
                   value: null,
                   hint: Text('Seleccionar etiquetas'),
-                  items: availableTags.map((tag) {
+                  items: [...availableTags, ...availableFamilies].map((tag) {
                     return DropdownMenuItem(
                       value: tag,
                       child: Text(tag),
@@ -83,6 +96,62 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
           Expanded(
             child: getListView(),
           ),
+          Container(
+            width: MediaQuery.of(context)
+                .size
+                .width, // Ancho igual al ancho de la pantalla
+            height: 70, // Altura específica del contenedor padre
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    color: Color(
+                        0xFFFF6600), // Color de fondo para la imagen izquierda
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (!selectedTags.contains('AMD')) {
+                            selectedTags.remove(
+                                'Intel'); // Elimina Intel si está presente
+                            selectedTags.add('AMD');
+                          }
+                        });
+                        // Lógica para la imagen izquierda
+                      },
+                      child: Image.asset(
+                        'assets/img/AMD.png', // Ruta de la imagen izquierda
+                        fit: BoxFit.cover, // Ajustar la imagen al contenedor
+                      ),
+                    ),
+                  ),
+                ),
+                // SizedBox(width: 10),
+
+                Expanded(
+                  child: Container(
+                    color: Color(
+                        0xFF00B2FF), // Color de fondo para la imagen derecha
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (!selectedTags.contains('Intel')) {
+                            selectedTags
+                                .remove('AMD'); // Elimina AMD si está presente
+                            selectedTags.add('Intel');
+                          }
+                        });
+                        // Lógica para la imagen derecha
+                      },
+                      child: Image.asset(
+                        'assets/img/intel.png', // Ruta de la imagen derecha
+                        fit: BoxFit.cover, // Ajustar la imagen al contenedor
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -100,10 +169,12 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
           dynamic processors = snapshot.data;
           List<dynamic> filteredProcessors = List.from(processors);
 
+          // Aplicar filtros basados en etiquetas seleccionadas
           if (selectedTags.isNotEmpty) {
             filteredProcessors = processors.where((processor) {
               bool brandMatch = true;
               bool typeMatch = true;
+              bool familyMatch = true;
 
               if (selectedTags.contains('AMD')) {
                 brandMatch = processor['brand'].toLowerCase() == 'amd';
@@ -115,7 +186,13 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                 typeMatch = processor['type'].toLowerCase() == 'desktop';
               }
 
-              return brandMatch && typeMatch;
+              // Verificar la coincidencia con la etiqueta de la familia
+              if (selectedTags.any((tag) => availableFamilies.contains(tag))) {
+                familyMatch = processor['family'] != null &&
+                    selectedTags.contains(processor['family']);
+              }
+
+              return brandMatch && typeMatch && familyMatch;
             }).toList();
           }
 
