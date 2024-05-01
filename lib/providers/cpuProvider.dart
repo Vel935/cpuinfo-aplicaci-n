@@ -1,29 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cpuinfo_application/models/cpus.dart';
 import 'package:flutter/foundation.dart';
 
 class CpuProvider extends ChangeNotifier {
-  // Lista privada
-  List<Cpu> _cpus = [];
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
-// Lista pública
-  List<Cpu> get cpus => _cpus;
+  final String collection = 'processors';
 
-  addCpu(Cpu cpu) {
-    _cpus.add(cpu);
-    notifyListeners();
-  }
-
-  void deleteCpu(Cpu cpu) {
-    _cpus.remove(cpu);
-    notifyListeners();
-  }
-
-  void changeVisibility(Cpu cpu) {
-    if (cpu.visible == true) {
-      cpu.visible = false;
-    } else {
-      cpu.visible = true;
+  Future getProcessors() async {
+    QuerySnapshot snapshot = await db.collection(collection).get();
+    print(snapshot.docs.length);
+    for (var doc in snapshot.docs) {
+      print(doc.id);
+      print(doc.data() as Map<String, dynamic>);
     }
-    notifyListeners();
+    return snapshot.docs;
   }
 }
