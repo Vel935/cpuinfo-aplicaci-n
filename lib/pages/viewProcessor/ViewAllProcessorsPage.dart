@@ -17,19 +17,20 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
     'AMD',
     'Intel',
     'Desktop'
+        ''
   ]; // Etiquetas disponibles
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Procesadores'),
+        title: Text('CPUINFO'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            padding: EdgeInsets.fromLTRB(20, 0, 20, 5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -50,8 +51,9 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                 SizedBox(height: 10),
                 Text(
                   'Etiquetas: ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                 ),
+                SizedBox(height: 10),
                 DropdownButton(
                   value: null,
                   hint: Text('Seleccionar etiquetas'),
