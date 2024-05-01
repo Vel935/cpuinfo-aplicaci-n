@@ -67,6 +67,8 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                         if (value == 'AMD' || value == 'Intel') {
                           selectedTags.removeWhere(
                               (tag) => tag == 'AMD' || tag == 'Intel');
+                        } else {
+                          selectedTags.remove(value.toString());
                         }
                         selectedTags.add(value.toString());
                       }
