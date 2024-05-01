@@ -2,7 +2,8 @@ import 'package:cpuinfo_application/pages/cpuCrud/addCpuPage/addCpuPage.dart';
 import 'package:cpuinfo_application/pages/cpuCrud/cpuCrudPage.dart';
 import 'package:cpuinfo_application/pages/firstPage/firstPage.dart';
 import 'package:cpuinfo_application/pages/homePage/homePage.dart';
-import 'package:cpuinfo_application/providers/cpuProvider.dart';
+import 'package:cpuinfo_application/pages/viewProcessor/ViewAllProcessorsPage.dart';
+import 'package:cpuinfo_application/providers/CpuProvider.dart';
 import 'package:cpuinfo_application/pages/comparator/ComparatorAddPage.dart';
 import 'package:cpuinfo_application/pages/register/RegisterPage.dart';
 import 'package:cpuinfo_application/providers/UserProvider.dart';
@@ -45,6 +46,7 @@ class MainApp extends StatelessWidget {
         "comparatormenu": (context) => const ComparatorAddPage(),
         "cpuCrudPage": (context) => cpuCrudPage(),
         "addCPU": (context) => CreateCpuPage(),
+        "viewAllProcessors": (context) => const ViewAllProcessorsPage()
       },
     );
   }
