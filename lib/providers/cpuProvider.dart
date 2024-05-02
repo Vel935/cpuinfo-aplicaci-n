@@ -25,6 +25,8 @@ class CpuProvider extends ChangeNotifier {
     return customId;
   }
 
+  // Metodos usados para la lista de procesadores:
+
   Future getProcessors() async {
     QuerySnapshot snapshot = await db.collection(collection).get();
     print(snapshot.docs.length);
