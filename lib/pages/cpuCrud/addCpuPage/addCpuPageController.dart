@@ -1,12 +1,8 @@
-// create_cpu_controller.dart
-
 import 'package:cpuinfo_application/models/cpus.dart';
 import 'package:cpuinfo_application/providers/cpuProvider.dart';
 
 class CreateCpuController {
-  final CpuProvider _cpuProvider = CpuProvider();
-
-  Future<String> createCPU({
+  Future<void> createCpu({
     required String brand,
     required String type,
     required String family,
@@ -15,27 +11,27 @@ class CreateCpuController {
     required int generation,
     required String model,
   }) async {
-    // Lógica de validación opcional
-
-    // Crear el objeto CPU
+    // Lógica para crear la CPU y guardarla en la base de datos
     Cpu cpu = Cpu(
       brand: brand,
       type: type,
       family: family,
       freq: freq,
       cores: cores,
-      visible: true,
       generation: generation,
       model: model,
+      visible: true,
     );
 
-    // Llamar al método del proveedor para crear la CPU en Firestore
+    // Llamar al método para crear la CPU en la base de datos
     try {
-      String response = await _cpuProvider.createCPU(cpu.toJson());
-      return response;
+      String response = await CpuProvider().createCPU(cpu.toJson());
+      print('CPU created with ID: $response');
+      // Puedes devolver el ID de la CPU creada si lo necesitas
     } catch (error) {
-      // Manejar el error adecuadamente
-      throw error;
+      print('Error creating CPU: $error');
+      // Puedes lanzar una excepción o manejar el error de otra manera
+      throw Exception('Error creating CPU');
     }
   }
 }

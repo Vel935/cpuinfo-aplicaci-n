@@ -24,20 +24,97 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
     return null;
   }
 
+  final CreateCpuController _cpuController = CreateCpuController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: mainAppBar(),
       body: Container(
-        color: Colors.white, // Add gray background color
+        color: Colors.white,
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(
-                left: 20.0, right: 20.0, top: 20.0, bottom: 90.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Dropdown y otros campos de entrada aquí...
+                DropdownButtonFormField<String>(
+                  value: _selectedBrand,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedBrand = newValue!;
+                    });
+                  },
+                  items: <String>['INTEL', 'AMD']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(labelText: 'Marca'),
+                ),
+                DropdownButtonFormField<String>(
+                  value: _selectedType,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedType = newValue!;
+                    });
+                  },
+                  items: <String>['Desktop', 'Laptop']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(labelText: 'Tipo'),
+                ),
+                TextFormField(
+                  controller: _familyController,
+                  decoration: InputDecoration(labelText: 'Familia'),
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _frequencyController,
+                  decoration: InputDecoration(labelText: 'Frecuencia (GHz)'),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _coresController,
+                  decoration: InputDecoration(labelText: 'Núcleos'),
+                  keyboardType: TextInputType.number,
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _generationController,
+                  decoration: InputDecoration(labelText: 'Generación'),
+                  keyboardType: TextInputType.number,
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _modelController,
+                  decoration: InputDecoration(labelText: 'Modelo'),
+                  keyboardType: TextInputType.number,
+                  validator: _validateInput,
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.all(20.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    backgroundColor: const Color(0xFF353535),
+                  ),
+                  onPressed: _createCpu,
+                  child: Text(
+                    'Crear CPU',
+                    style: const TextStyle(fontSize: 20.0, color: Colors.white),
+                  ),
+                ),
               ],
             ),
           ),
@@ -46,49 +123,40 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
     );
   }
 
-  bool fieldValidation() {
-    return _familyController.text.isNotEmpty &&
-        _frequencyController.text.isNotEmpty &&
-        _coresController.text.isNotEmpty &&
-        _generationController.text.isNotEmpty &&
-        _modelController.text.isNotEmpty;
-  }
-
-  Future<void> _createCpu() async {
+  void _createCpu() {
     if (fieldValidation()) {
-      // Crear instancia del controlador
-      CreateCpuController controller = CreateCpuController();
-
-      try {
-        // Llamar al método para crear la CPU
-        String response = await controller.createCPU(
-          brand: _selectedBrand,
-          type: _selectedType,
-          family: _familyController.text,
-          freq: double.parse(_frequencyController.text),
-          cores: int.parse(_coresController.text),
-          generation: int.parse(_generationController.text),
-          model: _modelController.text,
-        );
-
-        // Mostrar mensaje de éxito
+      _cpuController
+          .createCpu(
+        brand: _selectedBrand,
+        type: _selectedType,
+        family: _familyController.text,
+        freq: double.parse(_frequencyController.text),
+        cores: int.parse(_coresController.text),
+        generation: int.parse(_generationController.text),
+        model: _modelController.text,
+      )
+          .then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('El CPU se creó correctamente')),
+          SnackBar(content: Text('CPU creado correctamente')),
         );
-
-        // Ir a la página anterior
-        Navigator.pop(context);
-      } catch (error) {
-        // Mostrar mensaje de error
+        Navigator.pop(context); // Regresar a la página anterior
+      }).catchError((error) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al crear el CPU')),
+          SnackBar(content: Text('Error al crear CPU')),
         );
-      }
+      });
     } else {
-      // Mostrar mensaje de validación
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Ingrese todos los campos')),
       );
     }
+  }
+
+  bool fieldValidation() {
+    return _validateInput(_familyController.text) == null &&
+        _validateInput(_frequencyController.text) == null &&
+        _validateInput(_coresController.text) == null &&
+        _validateInput(_generationController.text) == null &&
+        _validateInput(_modelController.text) == null;
   }
 }
