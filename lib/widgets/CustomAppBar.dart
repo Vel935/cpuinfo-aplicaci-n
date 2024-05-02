@@ -8,8 +8,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title),
-      // Personaliza el AppBar según tus necesidades
+      backgroundColor: const Color(0xFF353535),
+      title: const Text("CPU INFO", style: TextStyle(color: Colors.white)),
     );
   }
 

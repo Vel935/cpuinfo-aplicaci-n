@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Cpu {
   late String type;
   late String brand;

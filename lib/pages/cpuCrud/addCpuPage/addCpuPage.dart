@@ -1,6 +1,5 @@
 import 'package:cpuinfo_application/main.dart';
-import 'package:cpuinfo_application/models/cpus.dart';
-import 'package:cpuinfo_application/providers/cpuProvider.dart';
+import 'package:cpuinfo_application/pages/cpuCrud/addCpuPage/addCpuPageController.dart';
 import 'package:flutter/material.dart';
 
 class CreateCpuPage extends StatefulWidget {
@@ -25,16 +24,18 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
     return null;
   }
 
+  final CreateCpuController _cpuController = CreateCpuController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: mainAppBar(),
       body: Container(
-        color: Colors.white, // Add gray background color
+        color: Colors.white,
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(
-                left: 20.0, right: 20.0, top: 20.0, bottom: 90.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -99,7 +100,6 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
                   keyboardType: TextInputType.number,
                   validator: _validateInput,
                 ),
-                //
                 SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -109,50 +109,11 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
                     ),
                     backgroundColor: const Color(0xFF353535),
                   ),
-                  onPressed: () {
-                    if (_validateInput(_familyController.text) == null &&
-                        _validateInput(_frequencyController.text) == null &&
-                        _validateInput(_coresController.text) == null &&
-                        _validateInput(_generationController.text) == null &&
-                        _validateInput(_modelController.text) == null) {
-                      // All fields are valid, proceed with CPU creation
-                      Cpu cpu = Cpu(
-                        brand: _selectedBrand,
-                        type: _selectedType,
-                        family: _familyController.text,
-                        freq: double.parse(_frequencyController.text),
-                        cores: int.parse(_coresController.text),
-                        visible: true, // Assuming default value is true
-                        generation: int.parse(_generationController.text),
-                        model: _modelController.text,
-                      );
-
-                      // Call method to create CPU in database
-                      CpuProvider().createCPU(cpu.toJson()).then((response) {
-                        //if response is not null, then the CPU was created successfully
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('El CPU se creó correctamente')));
-                        // Handle response if needed
-                        print('CPU created with ID: $response');
-                        // You can navigate to another page or show a dialog
-                      }).catchError((error) {
-                        // Handle error if creation fails
-                        print('Error creating CPU: $error');
-                        // Show error message to user
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error al crear el CPU')),
-                        );
-                      });
-                    } else {
-                      // Show error message indicating required fields
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Ingrese todos los campos')),
-                      );
-                    }
-                  },
-                  child: Text('Crear CPU',
-                      style:
-                          const TextStyle(fontSize: 20.0, color: Colors.white)),
+                  onPressed: _createCpu,
+                  child: Text(
+                    'Crear CPU',
+                    style: const TextStyle(fontSize: 20.0, color: Colors.white),
+                  ),
                 ),
               ],
             ),
@@ -160,5 +121,42 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
         ),
       ),
     );
+  }
+
+  void _createCpu() {
+    if (fieldValidation()) {
+      _cpuController
+          .createCpu(
+        brand: _selectedBrand,
+        type: _selectedType,
+        family: _familyController.text,
+        freq: double.parse(_frequencyController.text),
+        cores: int.parse(_coresController.text),
+        generation: int.parse(_generationController.text),
+        model: _modelController.text,
+      )
+          .then((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('CPU creado correctamente')),
+        );
+        Navigator.pop(context); // Regresar a la página anterior
+      }).catchError((error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al crear CPU')),
+        );
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Ingrese todos los campos')),
+      );
+    }
+  }
+
+  bool fieldValidation() {
+    return _validateInput(_familyController.text) == null &&
+        _validateInput(_frequencyController.text) == null &&
+        _validateInput(_coresController.text) == null &&
+        _validateInput(_generationController.text) == null &&
+        _validateInput(_modelController.text) == null;
   }
 }
