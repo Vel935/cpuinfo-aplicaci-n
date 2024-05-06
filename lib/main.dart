@@ -40,7 +40,7 @@ class MainApp extends StatelessWidget {
       key: navigatorKey,
       title: "CPU INFO",
       debugShowCheckedModeBanner: false,
-      initialRoute: "viewProcesorInformation",
+      initialRoute: "home",
       routes: {
         "login": (BuildContext context) => LoginPage(),
         "register": (context) => RegisterPage(),

@@ -1,5 +1,7 @@
+import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
 import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ComparatorAddPage extends StatelessWidget {
   const ComparatorAddPage({Key? key}) : super(key: key);
@@ -21,7 +23,12 @@ class ComparatorAddPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Provider.of<CpuComparatorProvider>(context,
+                                    listen: false)
+                                .updateState(true);
+                            Navigator.pushNamed(context, 'viewAllProcessors');
+                          },
                           child: Text('+'), //boton izquierdo
                         ),
                       ),
@@ -42,7 +49,12 @@ class ComparatorAddPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Provider.of<CpuComparatorProvider>(context,
+                                    listen: false)
+                                .updateState(true);
+                            Navigator.pushNamed(context, 'viewAllProcessors');
+                          },
                           child: Text('+'), //boton derecho
                         ),
                       ),

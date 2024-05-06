@@ -1,7 +1,9 @@
 import 'package:cpuinfo_application/main.dart';
+import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -57,6 +59,9 @@ class HomePage extends StatelessWidget {
                           child: ElevatedButton(
                             style: homeButtonStyle(),
                             onPressed: () {
+                              Provider.of<CpuComparatorProvider>(context,
+                                      listen: false)
+                                  .updateState(false);
                               Navigator.pushNamed(context, 'viewAllProcessors');
                               // Acción para el botón "Ver"
                               // Puedes agregar aquí la navegación o acción deseada

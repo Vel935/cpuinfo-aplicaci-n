@@ -1,4 +1,5 @@
 import 'package:cpuinfo_application/pages/viewProcessor/ViewAllProcessorsController.dart';
+import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
 import 'package:cpuinfo_application/providers/cpuProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -216,10 +217,21 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
-                    child: Container(
-                      color: color,
-                      child: ListTile(
-                        title: Text(docId),
+                    child: GestureDetector(
+                      onTap: () {
+                        // Navegar a la página de detalles
+                        //print('Processor: $processor');
+
+                        Navigator.pushNamed(
+                          context,
+                          "viewProcesorInformation", // Pasa la instantánea de documento
+                        );
+                      },
+                      child: Container(
+                        color: color,
+                        child: ListTile(
+                          title: Text(docId),
+                        ),
                       ),
                     ),
                   ),

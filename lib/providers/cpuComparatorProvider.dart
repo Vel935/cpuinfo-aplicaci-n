@@ -5,7 +5,7 @@ class CpuComparatorProvider extends ChangeNotifier {
 
   bool get comparing => _comparing;
 
-  void actualizarComparando(bool value) {
+  void updateState(bool value) {
     _comparing = value;
     notifyListeners(); // Notifica a los widgets suscritos sobre el cambio
   }
