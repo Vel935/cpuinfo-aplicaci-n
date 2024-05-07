@@ -50,7 +50,7 @@ class MainApp extends StatelessWidget {
         "cpuCrudPage": (context) => cpuCrudPage(),
         "addCPU": (context) => CreateCpuPage(),
         "viewAllProcessors": (context) => const ViewAllProcessorsPage(),
-        "viewProcesorInformation": (context) => CpuInformationPage()
+        "viewProcesorInformation": (context) => CpuInformationPage(),
       },
     );
   }

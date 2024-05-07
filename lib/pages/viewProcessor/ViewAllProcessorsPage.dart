@@ -219,13 +219,9 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                     borderRadius: BorderRadius.circular(10.0),
                     child: GestureDetector(
                       onTap: () {
-                        // Navegar a la página de detalles
-                        //print('Processor: $processor');
-
-                        Navigator.pushNamed(
-                          context,
-                          "viewProcesorInformation", // Pasa la instantánea de documento
-                        );
+                        Navigator.pushNamed(context,
+                            "viewProcesorInformation", // Pasa la instantánea de documento
+                            arguments: {"data": docId});
                       },
                       child: Container(
                         color: color,
