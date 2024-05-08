@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart'; // Importar para JsonQueryDocumentSnapshot
+import 'package:cpuinfo_application/main.dart';
 import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CpuInformationPage extends StatefulWidget {
-  //final String processorId; // Agrega una variable para recibir el parámetro
   const CpuInformationPage({Key? key}) : super(key: key);
 
   @override
@@ -13,20 +14,29 @@ class CpuInformationPage extends StatefulWidget {
 class _CpuInformationPageState extends State<CpuInformationPage> {
   @override
   Widget build(BuildContext context) {
-    // Obtiene el estado del Provider
-
-    //recibe la variable que contiene informacion del procesador elegido de la pagina de lista de procesadores
     final Map<String, dynamic> args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    final data = args["data"];
+    final snapshot = args["data"] as DocumentSnapshot; // Cambio aquí
+    final data = snapshot.data() as Map<String, dynamic>; // Cambio aquí
     final comparadorProvider = Provider.of<CpuComparatorProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(data),
+      appBar: mainAppBar(),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Información del procesador:'),
+            Text('marca: ${data['brand']}'),
+            Text('modelo: ${data['model']}'),
+            Text('nucleos: ${data['cores']}'),
+            Text('frecuencia: ${data['freq']}'),
+            Text('generacion: ${data['generation']}'),
+            Text('famila: ${data['family']}'),
+            Text('tipo: ${data['type']}'),
+          ],
+        ),
       ),
-      body: Placeholder(),
-      // Muestra u oculta el botón flotante basado en el estado del Provider
       floatingActionButton: comparadorProvider.comparing
           ? FloatingActionButton(
               onPressed: () {
@@ -34,12 +44,11 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
                     .updateState(false);
 
                 Navigator.popAndPushNamed(context, 'comparatormenu',
-                    arguments: {"data": data});
-                // Acción que deseas realizar al presionar el botón
+                    arguments: {"data": snapshot}); // Cambio aquí
               },
-              child: Icon(Icons.add), // Icono del botón flotante
+              child: Icon(Icons.add),
             )
-          : null, // Si no estás comparando, no muestra el botón flotante
+          : null,
     );
   }
 }
