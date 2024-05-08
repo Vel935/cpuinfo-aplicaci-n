@@ -14,6 +14,8 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
   @override
   Widget build(BuildContext context) {
     // Obtiene el estado del Provider
+
+    //recibe la variable que contiene informacion del procesador elegido de la pagina de lista de procesadores
     final Map<String, dynamic> args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     final data = args["data"];
@@ -28,6 +30,11 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
       floatingActionButton: comparadorProvider.comparing
           ? FloatingActionButton(
               onPressed: () {
+                Provider.of<CpuComparatorProvider>(context, listen: false)
+                    .updateState(false);
+
+                Navigator.popAndPushNamed(context, 'comparatormenu',
+                    arguments: {"data": data});
                 // Acción que deseas realizar al presionar el botón
               },
               child: Icon(Icons.add), // Icono del botón flotante

@@ -8,6 +8,11 @@ class ComparatorAddPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //recibe la variable que contiene informacion del procesador elegido de la pagina de lista de procesadores
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    final data = args["data"];
+
     return Scaffold(
       appBar: const MyAppBar(title: "CPUINFO"),
       body: Stack(
@@ -29,7 +34,7 @@ class ComparatorAddPage extends StatelessWidget {
                                 .updateState(true);
                             Navigator.pushNamed(context, 'viewAllProcessors');
                           },
-                          child: Text('+'), //boton izquierdo
+                          child: Text(data), //boton izquierdo
                         ),
                       ),
                     ],
@@ -64,14 +69,14 @@ class ComparatorAddPage extends StatelessWidget {
               ),
             ],
           ),
-          Positioned(
-            top: MediaQuery.of(context).size.height / 2 - 30,
-            left: MediaQuery.of(context).size.width / 2 - 60,
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Text('Comparar!'),
-            ),
-          ),
+          // Positioned(
+          //   top: MediaQuery.of(context).size.height / 2 - 30,
+          //   left: MediaQuery.of(context).size.width / 2 - 60,
+          //   child: ElevatedButton(
+          //     onPressed: () {},
+          //     child: Text('Comparar!'),
+          //   ),
+          // ),
         ],
       ),
     );

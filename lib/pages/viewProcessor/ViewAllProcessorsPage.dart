@@ -222,6 +222,7 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                         Navigator.pushNamed(context,
                             "viewProcesorInformation", // Pasa la instantánea de documento
                             arguments: {"data": docId});
+                        // arguments: {"data": processor});
                       },
                       child: Container(
                         color: color,
