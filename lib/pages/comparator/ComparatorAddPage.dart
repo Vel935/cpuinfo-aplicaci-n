@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
 import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
@@ -8,20 +9,29 @@ class ComparatorAddPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //recibe la variable que contiene informacion del procesador elegido de la pagina de lista de procesadores
-    final Map<String, dynamic> args =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    final data = args["data"];
-
+    final comparatorProvider = Provider.of<CpuComparatorProvider>(context);
+    final data1 = comparatorProvider.data1;
+    final data2 = comparatorProvider.data2;
     return Scaffold(
-      appBar: const MyAppBar(title: "CPUINFO"),
+      appBar: AppBar(
+        title: const Text("CPUINFO"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            // Aquí puedes controlar la acción cuando se presiona el botón de retroceso
+            // Por ejemplo, puedes usar Navigator.popAndPushNamed para navegar a una página específica
+            Navigator.pushNamedAndRemoveUntil(
+                context, 'home', (route) => false);
+          },
+        ),
+      ),
       body: Stack(
         children: [
           Row(
             children: [
               Expanded(
                 child: Container(
-                  color: Colors.white, // Cambiar color a blanco
+                  color: Colors.white,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -31,10 +41,16 @@ class ComparatorAddPage extends StatelessWidget {
                           onPressed: () {
                             Provider.of<CpuComparatorProvider>(context,
                                     listen: false)
+                                .setLastButtonPressed(
+                                    "right"); // Actualizar el último botón presionado
+
+                            Provider.of<CpuComparatorProvider>(context,
+                                    listen: false)
                                 .updateState(true);
+
                             Navigator.pushNamed(context, 'viewAllProcessors');
                           },
-                          child: Text(data), //boton izquierdo
+                          child: Text(data1 != null ? '${data1['id']}' : '+'),
                         ),
                       ),
                     ],
@@ -42,12 +58,12 @@ class ComparatorAddPage extends StatelessWidget {
                 ),
               ),
               Container(
-                width: 1, // Ancho de la línea
-                color: Colors.black, // Color de la línea
+                width: 1,
+                color: Colors.black,
               ),
               Expanded(
                 child: Container(
-                  color: Colors.white, // Cambiar color a blanco
+                  color: Colors.white,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -58,9 +74,18 @@ class ComparatorAddPage extends StatelessWidget {
                             Provider.of<CpuComparatorProvider>(context,
                                     listen: false)
                                 .updateState(true);
+
+                            Provider.of<CpuComparatorProvider>(context,
+                                    listen: false)
+                                .setLastButtonPressed(
+                                    "left"); // Actualizar el último botón presionado
+
+                            // Navigator.popAndPushNamed(
+                            //     context, 'viewAllProcessors');
+
                             Navigator.pushNamed(context, 'viewAllProcessors');
                           },
-                          child: Text('+'), //boton derecho
+                          child: Text(data2 != null ? '${data2['id']}' : '+'),
                         ),
                       ),
                     ],
@@ -69,14 +94,6 @@ class ComparatorAddPage extends StatelessWidget {
               ),
             ],
           ),
-          // Positioned(
-          //   top: MediaQuery.of(context).size.height / 2 - 30,
-          //   left: MediaQuery.of(context).size.width / 2 - 60,
-          //   child: ElevatedButton(
-          //     onPressed: () {},
-          //     child: Text('Comparar!'),
-          //   ),
-          // ),
         ],
       ),
     );

@@ -41,7 +41,9 @@ class HomePage extends StatelessWidget {
                           child: ElevatedButton(
                             style: homeButtonStyle(),
                             onPressed: () {
-                              Navigator.pushNamed(context, 'comparatormenu');
+                              // Navigator.pushNamed(context, 'comparatormenu',
+                              //     arguments: {"data": ""});
+                              Navigator.pushNamed(context, "comparatormenu");
                             },
                             child: Text(
                               'Comparar',
