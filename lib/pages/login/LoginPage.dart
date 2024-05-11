@@ -20,6 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   User user = User.empty();
 
   late LoginController controller;
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
 //____________________________
   Future<void> userValidation() async {
     print(controller.login(user.mail, user.password));
-    if (await controller.login(user.mail, user.password)) {
+    if (await controller.signIn(user.mail, user.password)) {
       Navigator.pushNamed(context, "firstPage");
       //Navigator.popAndPushNamed(context, 'firstPage');
     } else {

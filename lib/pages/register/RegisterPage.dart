@@ -83,6 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
           vertical: 20), //margen horizontal y vertical del boton
       child: ElevatedButton(
           onPressed: () {
+            controller.signup(user.mail, user.password);
             controller.createUser({
               'mail': user.mail,
               'password': user.password,

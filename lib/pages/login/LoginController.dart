@@ -1,4 +1,6 @@
+import 'package:cpuinfo_application/pages/login/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:cpuinfo_application/providers/UserProvider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginController {
@@ -6,6 +8,8 @@ class LoginController {
   GlobalKey<FormState> key;
   BuildContext context;
   LoginController({required this.key, required this.context});
+
+  final firebaseAuthService _auth = firebaseAuthService();
 
   Future<bool> login(String mail, String password) {
     if (!key.currentState!.validate()) return Future.value(false);
@@ -31,5 +35,18 @@ class LoginController {
       return "El campo es obligatorio.";
     }
     return null;
+  }
+
+  Future<bool> signIn(mail, password) async {
+    print("Email: $mail, Password: $password");
+
+    User? user = await _auth.signInWithEmailAndPassword(mail, password);
+    print(user);
+    if (user != null) {
+      print("autenticacion exitosa");
+    } else {
+      print("autenticacion fallida");
+    }
+    return user != null;
   }
 }
