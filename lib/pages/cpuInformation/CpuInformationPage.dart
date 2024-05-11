@@ -19,6 +19,10 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
     final snapshot = args["data"] as DocumentSnapshot; // Cambio aquí
     final data = snapshot.data() as Map<String, dynamic>; // Cambio aquí
     final comparadorProvider = Provider.of<CpuComparatorProvider>(context);
+    // final lastButtonPressed = CpuComparatorProvider().lastButtonPressed;
+    final lastButtonPressed = Provider.of<CpuComparatorProvider>(context);
+
+    final chica = CpuComparatorProvider().getpalabra;
 
     return Scaffold(
       appBar: mainAppBar(),
@@ -40,11 +44,34 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
       floatingActionButton: comparadorProvider.comparing
           ? FloatingActionButton(
               onPressed: () {
+                String variable = "";
+                variable = lastButtonPressed.lastButtonPressed;
+                print(
+                    'ALL RIGHT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!$variable');
+                // print(
+                //     'ALL RIGHT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!$lastButtonPressed');
+                // print(
+                //     'PALABRAAAAAA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!$palabra');
+
                 Provider.of<CpuComparatorProvider>(context, listen: false)
                     .updateState(false);
 
-                Navigator.popAndPushNamed(context, 'comparatormenu',
-                    arguments: {"data": snapshot}); // Cambio aquí
+                if (variable == "right") {
+                  print("RIGHTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT $snapshot");
+                  Provider.of<CpuComparatorProvider>(context, listen: false)
+                      .setData1(snapshot);
+                }
+
+                if (variable == "left") {
+                  print("LEFTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT $snapshot");
+                  Provider.of<CpuComparatorProvider>(context, listen: false)
+                      .setData2(snapshot);
+                }
+
+                Navigator.pushNamedAndRemoveUntil(
+                    context, 'comparatormenu', (route) => false); // Cambio aquí
+                // Navigator.popAndPushNamed(context, 'comparatormenu',
+                //     arguments: {"data": snapshot}); // Cambio aquí
               },
               child: Icon(Icons.add),
             )
