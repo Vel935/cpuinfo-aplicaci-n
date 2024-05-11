@@ -219,10 +219,28 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                     borderRadius: BorderRadius.circular(10.0),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context,
-                            "viewProcesorInformation", // Pasa la instantánea de documento
-                            arguments: {"data": processor});
-                        // arguments: {"data": processor});
+                        var selected = Provider.of<CpuComparatorProvider>(
+                                context,
+                                listen: false)
+                            .actualPage;
+                        if (selected == "modifyCPU") {
+                          print("Modificar CPU");
+                          //Provider.of<CpuComparatorProvider>(context,
+                          //        listen: false)
+                          //    .updateActualPage("");
+                          Navigator.pushNamed(context, 'modifyCPU',
+                              arguments: {"data": processor});
+                          return;
+                        } else if (selected == "deleteCPU") {
+                          print("Eliminar CPU");
+                          // Acción para el botón 3
+                          return;
+                        } else {
+                          print("Ver información del procesador");
+                          Navigator.pushNamed(context,
+                              "viewProcesorInformation", // Pasa la instantánea de documento
+                              arguments: {"data": processor});
+                        }
                       },
                       child: Container(
                         color: color,

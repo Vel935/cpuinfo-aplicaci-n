@@ -62,6 +62,9 @@ class HomePage extends StatelessWidget {
                               Provider.of<CpuComparatorProvider>(context,
                                       listen: false)
                                   .updateState(false);
+                              Provider.of<CpuComparatorProvider>(context,
+                                      listen: false)
+                                  .updateActualPage("");
                               Navigator.pushNamed(context, 'viewAllProcessors');
                               // Acción para el botón "Ver"
                               // Puedes agregar aquí la navegación o acción deseada

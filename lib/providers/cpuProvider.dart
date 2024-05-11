@@ -56,4 +56,19 @@ class CpuProvider extends ChangeNotifier {
     return families
         .toList(); // Convertir el conjunto a una lista antes de retornarlo
   }
+
+  //modificar un procesador
+  modifyProcessor(String id, Map<String, dynamic> cpu) async {
+    await db.collection(collection).doc(id).delete();
+    createCPU(cpu);
+    //await db.collection(collection).doc(id).update(cpu);
+    notifyListeners();
+  }
+
+  modifyProcessorAndId(
+      String id, String newId, Map<String, dynamic> cpu) async {
+    await db.collection(collection).doc(id).delete();
+    await db.collection(collection).doc(newId).set(cpu);
+    notifyListeners();
+  }
 }
