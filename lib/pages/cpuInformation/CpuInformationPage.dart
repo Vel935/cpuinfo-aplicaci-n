@@ -34,7 +34,7 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
             Text('marca: ${data['brand']}'),
             Text('modelo: ${data['model']}'),
             Text('nucleos: ${data['cores']}'),
-            Text('frecuencia: ${data['freq']}'),
+            Text('frecuencia: ${data['minfreq']}'),
             Text('generacion: ${data['generation']}'),
             Text('famila: ${data['family']}'),
             Text('tipo: ${data['type']}'),

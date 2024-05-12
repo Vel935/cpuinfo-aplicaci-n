@@ -14,6 +14,17 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
   final TextEditingController _generationController = TextEditingController();
   final TextEditingController _modelController = TextEditingController();
 
+  final TextEditingController _socketController = TextEditingController();
+  final TextEditingController _integratedGpuController =
+      TextEditingController();
+  final TextEditingController _architectureController = TextEditingController();
+  final TextEditingController _lithographyController = TextEditingController();
+  final TextEditingController _tdpController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _threadsController = TextEditingController();
+  final TextEditingController _maxFreqController = TextEditingController();
+  final TextEditingController _pciExpressController = TextEditingController();
+
   String _selectedBrand = 'INTEL'; // Default brand selection
   String _selectedType = 'Desktop'; // Default type selection
 
@@ -100,6 +111,57 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
                   keyboardType: TextInputType.number,
                   validator: _validateInput,
                 ),
+                TextFormField(
+                  controller: _socketController,
+                  decoration: InputDecoration(labelText: 'Socket'),
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _integratedGpuController,
+                  decoration: InputDecoration(labelText: 'GPU Integrada'),
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _architectureController,
+                  decoration: InputDecoration(labelText: 'Arquitectura'),
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _lithographyController,
+                  decoration: InputDecoration(labelText: 'Litografía'),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _tdpController,
+                  decoration: InputDecoration(labelText: 'TDP'),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _priceController,
+                  decoration: InputDecoration(labelText: 'Precio'),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _threadsController,
+                  decoration: InputDecoration(labelText: 'Hilos'),
+                  keyboardType: TextInputType.number,
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _maxFreqController,
+                  decoration: InputDecoration(labelText: 'Frecuencia Máxima'),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _pciExpressController,
+                  decoration: InputDecoration(labelText: 'PCI Express'),
+                  keyboardType: TextInputType.number,
+                  validator: _validateInput,
+                ),
                 SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -134,6 +196,15 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
         cores: int.parse(_coresController.text),
         generation: int.parse(_generationController.text),
         model: _modelController.text,
+        socket: _socketController.text,
+        integratedGpu: _integratedGpuController.text,
+        architecture: _architectureController.text,
+        lithography: int.parse(_lithographyController.text),
+        tdp: int.parse(_tdpController.text),
+        price: int.parse(_priceController.text),
+        threads: int.parse(_threadsController.text),
+        maxFreq: double.parse(_maxFreqController.text),
+        pciExpress: double.parse(_pciExpressController.text),
       )
           .then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -157,6 +228,15 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
         _validateInput(_frequencyController.text) == null &&
         _validateInput(_coresController.text) == null &&
         _validateInput(_generationController.text) == null &&
-        _validateInput(_modelController.text) == null;
+        _validateInput(_modelController.text) == null &&
+        _validateInput(_socketController.text) == null &&
+        _validateInput(_integratedGpuController.text) == null &&
+        _validateInput(_architectureController.text) == null &&
+        _validateInput(_lithographyController.text) == null &&
+        _validateInput(_tdpController.text) == null &&
+        _validateInput(_priceController.text) == null &&
+        _validateInput(_threadsController.text) == null &&
+        _validateInput(_maxFreqController.text) == null &&
+        _validateInput(_pciExpressController.text) == null;
   }
 }

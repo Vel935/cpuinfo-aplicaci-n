@@ -18,6 +18,17 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
   final TextEditingController _generationController = TextEditingController();
   final TextEditingController _modelController = TextEditingController();
 
+  final TextEditingController _socketController = TextEditingController();
+  final TextEditingController _integratedGpuController =
+      TextEditingController();
+  final TextEditingController _architectureController = TextEditingController();
+  final TextEditingController _lithographyController = TextEditingController();
+  final TextEditingController _tdpController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _threadsController = TextEditingController();
+  final TextEditingController _maxFreqController = TextEditingController();
+  final TextEditingController _pciExpressController = TextEditingController();
+
   TextEditingController _idController = TextEditingController();
 
   String _selectedBrand = 'INTEL'; // Default brand selection
@@ -46,6 +57,15 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
     _modelController.text = data['model'];
     _selectedBrand = data['brand'];
     _selectedType = data['type'];
+    _socketController.text = data['socket'];
+    _integratedGpuController.text = data['integratedGpu'];
+    _architectureController.text = data['architecture'];
+    _lithographyController.text = data['lithography'].toString();
+    _tdpController.text = data['tdp'].toString();
+    _priceController.text = data['price'].toString();
+    _threadsController.text = data['threads'].toString();
+    _maxFreqController.text = data['maxFreq'].toString();
+    _pciExpressController.text = data['pciExpress'].toString();
 
     _idController.text = snapshot.id;
 
@@ -99,7 +119,8 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
                 ),
                 TextFormField(
                   controller: _frequencyController,
-                  decoration: InputDecoration(labelText: 'Frecuencia (GHz)'),
+                  decoration:
+                      InputDecoration(labelText: 'Frecuencia Minima (GHz)'),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   validator: _validateInput,
                 ),
@@ -122,6 +143,58 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
                   validator: _validateInput,
                 ),
                 SizedBox(height: 20),
+                TextFormField(
+                  controller: _socketController,
+                  decoration: InputDecoration(labelText: 'Socket'),
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _integratedGpuController,
+                  decoration: InputDecoration(labelText: 'GPU Integrada'),
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _architectureController,
+                  decoration: InputDecoration(labelText: 'Arquitectura'),
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _lithographyController,
+                  decoration: InputDecoration(labelText: 'Litografía'),
+                  keyboardType: TextInputType.number,
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _tdpController,
+                  decoration: InputDecoration(labelText: 'TDP'),
+                  keyboardType: TextInputType.number,
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _priceController,
+                  decoration: InputDecoration(labelText: 'Precio'),
+                  keyboardType: TextInputType.number,
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _threadsController,
+                  decoration: InputDecoration(labelText: 'Hilos'),
+                  keyboardType: TextInputType.number,
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _maxFreqController,
+                  decoration:
+                      InputDecoration(labelText: 'Frecuencia Máxima (GHz)'),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _pciExpressController,
+                  decoration: InputDecoration(labelText: 'PCI Express'),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  validator: _validateInput,
+                ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(20.0),
@@ -151,10 +224,19 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
         brand: _selectedBrand,
         type: _selectedType,
         family: _familyController.text,
-        freq: double.parse(_frequencyController.text),
+        minfreq: double.parse(_frequencyController.text),
         cores: int.parse(_coresController.text),
         generation: int.parse(_generationController.text),
         model: _modelController.text,
+        socket: _socketController.text,
+        integratedGpu: _integratedGpuController.text,
+        architecture: _architectureController.text,
+        lithography: int.parse(_lithographyController.text),
+        tdp: int.parse(_tdpController.text),
+        price: int.parse(_priceController.text),
+        threads: int.parse(_threadsController.text),
+        maxFreq: double.parse(_maxFreqController.text),
+        pciExpress: double.parse(_pciExpressController.text),
         id: _idController.text,
       )
           .then((_) {
@@ -181,6 +263,15 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
         _validateInput(_frequencyController.text) == null &&
         _validateInput(_coresController.text) == null &&
         _validateInput(_generationController.text) == null &&
-        _validateInput(_modelController.text) == null;
+        _validateInput(_modelController.text) == null &&
+        _validateInput(_socketController.text) == null &&
+        _validateInput(_integratedGpuController.text) == null &&
+        _validateInput(_architectureController.text) == null &&
+        _validateInput(_lithographyController.text) == null &&
+        _validateInput(_tdpController.text) == null &&
+        _validateInput(_priceController.text) == null &&
+        _validateInput(_threadsController.text) == null &&
+        _validateInput(_maxFreqController.text) == null &&
+        _validateInput(_pciExpressController.text) == null;
   }
 }

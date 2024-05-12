@@ -10,17 +10,35 @@ class CreateCpuController {
     required int cores,
     required int generation,
     required String model,
+    required String socket,
+    required String integratedGpu,
+    required String architecture,
+    required int lithography,
+    required int tdp,
+    required int price,
+    required int threads,
+    required double maxFreq,
+    required double pciExpress,
   }) async {
     // Lógica para crear la CPU y guardarla en la base de datos
     Cpu cpu = Cpu(
       brand: brand,
       type: type,
       family: family,
-      freq: freq,
+      minfreq: freq,
       cores: cores,
       generation: generation,
       model: model,
       visible: true,
+      socket: socket,
+      integratedGpu: integratedGpu,
+      architecture: architecture,
+      lithography: lithography,
+      tdp: tdp,
+      price: price,
+      threads: threads,
+      maxFreq: maxFreq,
+      pciExpress: pciExpress,
     );
 
     // Llamar al método para crear la CPU en la base de datos
