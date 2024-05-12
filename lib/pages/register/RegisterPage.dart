@@ -2,6 +2,7 @@ import 'package:cpuinfo_application/main.dart';
 import 'package:cpuinfo_application/models/user.dart';
 import 'package:cpuinfo_application/pages/register/RegisterController.dart';
 import 'package:cpuinfo_application/providers/UserProvider.dart';
+import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +22,11 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     controller = RegisterController(key: _key, context: context);
 
-    return Scaffold(appBar: mainAppBar(), body: formUserRegister(context));
+    return Scaffold(
+        appBar: MyAppBar(),
+        body: ListView(
+          children: [formUserRegister(context)],
+        ));
   }
 
   Form formUserRegister(BuildContext context) {

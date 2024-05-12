@@ -1,6 +1,7 @@
 import 'package:cpuinfo_application/pages/viewProcessor/ViewAllProcessorsController.dart';
 import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
 import 'package:cpuinfo_application/providers/cpuProvider.dart';
+import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,9 +38,7 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('CPUINFO'),
-      ),
+      appBar: MyAppBar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

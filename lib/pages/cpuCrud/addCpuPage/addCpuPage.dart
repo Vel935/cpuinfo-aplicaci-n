@@ -1,5 +1,6 @@
 import 'package:cpuinfo_application/main.dart';
 import 'package:cpuinfo_application/pages/cpuCrud/addCpuPage/addCpuPageController.dart';
+import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 
 class CreateCpuPage extends StatefulWidget {
@@ -40,7 +41,7 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: mainAppBar(),
+      appBar: MyAppBar(),
       body: Container(
         color: Colors.white,
         child: SingleChildScrollView(

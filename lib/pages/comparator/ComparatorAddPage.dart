@@ -14,7 +14,8 @@ class ComparatorAddPage extends StatelessWidget {
     final data2 = comparatorProvider.data2;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("CPUINFO"),
+        backgroundColor: const Color(0xFF353535),
+        title: const Text("CPU INFO", style: TextStyle(color: Colors.white)),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -50,7 +51,8 @@ class ComparatorAddPage extends StatelessWidget {
 
                             Navigator.pushNamed(context, 'viewAllProcessors');
                           },
-                          child: Text(data1 != null ? '${data1['id']}' : '+'),
+                          child:
+                              Text(data1 != null ? '${data1['brand']}' : '+'),
                         ),
                       ),
                     ],
@@ -69,23 +71,38 @@ class ComparatorAddPage extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Provider.of<CpuComparatorProvider>(context,
-                                    listen: false)
-                                .updateState(true);
+                        child: Column(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Provider.of<CpuComparatorProvider>(context,
+                                        listen: false)
+                                    .updateState(true);
 
-                            Provider.of<CpuComparatorProvider>(context,
-                                    listen: false)
-                                .setLastButtonPressed(
-                                    "left"); // Actualizar el último botón presionado
+                                Provider.of<CpuComparatorProvider>(context,
+                                        listen: false)
+                                    .setLastButtonPressed(
+                                        "left"); // Actualizar el último botón presionado
 
-                            // Navigator.popAndPushNamed(
-                            //     context, 'viewAllProcessors');
+                                // Navigator.popAndPushNamed(
+                                //     context, 'viewAllProcessors');
 
-                            Navigator.pushNamed(context, 'viewAllProcessors');
-                          },
-                          child: Text(data2 != null ? '${data2['id']}' : '+'),
+                                Navigator.pushNamed(
+                                    context, 'viewAllProcessors');
+                              },
+                              child: Text(
+                                  data2 != null ? '${data2['brand']}' : '+'),
+                            ),
+                            Text('Información del procesador'),
+                            Text('Arquitectura: ${data2?['Zen 0']}'),
+                            Text('Marca: ${data2?['brand']}'),
+                            Text('Modelo: ${data2?['model']}'),
+                            Text('nucleos: ${data2?['cores']}'),
+                            Text('frecuencia: ${data2?['minfreq']}'),
+                            Text('generacion: ${data2?['generation']}'),
+                            Text('famila: ${data2?['family']}'),
+                            Text('tipo: ${data2?['type']}'),
+                          ],
                         ),
                       ),
                     ],
