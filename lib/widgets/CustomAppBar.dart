@@ -8,6 +8,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: const Color(0xFF353535),
       title: const Text("CPU INFO", style: TextStyle(color: Colors.white)),
+      bottom: PreferredSize(
+        preferredSize: Size.fromHeight(1.0),
+        child: Container(
+          color: Colors.black,
+          height: 1.0,
+        ),
+      ),
     );
   }
 

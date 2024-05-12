@@ -26,7 +26,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     controller = LoginController(key: _key, context: context);
-    return Scaffold(appBar: MyAppBar(), body: formLogin(context));
+
+    return Scaffold(
+        // backgroundColor: Colors.red,
+        appBar: MyAppBar(),
+        // backgroundColor: const Color(0xFF35353),
+        body: formLogin(context));
   }
 
   Form formLogin(BuildContext context) {

@@ -39,6 +39,7 @@ class ComparatorAddPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
+                          style: selectButtonStyle(),
                           onPressed: () {
                             Provider.of<CpuComparatorProvider>(context,
                                     listen: false)
@@ -51,8 +52,8 @@ class ComparatorAddPage extends StatelessWidget {
 
                             Navigator.pushNamed(context, 'viewAllProcessors');
                           },
-                          child:
-                              Text(data1 != null ? '${data1['brand']}' : '+'),
+                          child: Text(data1 != null ? '${data1['brand']}' : '+',
+                              style: selectTextButtonStyle()),
                         ),
                       ),
                     ],
@@ -71,38 +72,27 @@ class ComparatorAddPage extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                Provider.of<CpuComparatorProvider>(context,
-                                        listen: false)
-                                    .updateState(true);
+                        child: ElevatedButton(
+                          style: selectButtonStyle(),
+                          onPressed: () {
+                            Provider.of<CpuComparatorProvider>(context,
+                                    listen: false)
+                                .updateState(true);
 
-                                Provider.of<CpuComparatorProvider>(context,
-                                        listen: false)
-                                    .setLastButtonPressed(
-                                        "left"); // Actualizar el último botón presionado
+                            Provider.of<CpuComparatorProvider>(context,
+                                    listen: false)
+                                .setLastButtonPressed(
+                                    "left"); // Actualizar el último botón presionado
 
-                                // Navigator.popAndPushNamed(
-                                //     context, 'viewAllProcessors');
+                            // Navigator.popAndPushNamed(
+                            //     context, 'viewAllProcessors');
 
-                                Navigator.pushNamed(
-                                    context, 'viewAllProcessors');
-                              },
-                              child: Text(
-                                  data2 != null ? '${data2['brand']}' : '+'),
-                            ),
-                            Text('Información del procesador'),
-                            Text('Arquitectura: ${data2?['Zen 0']}'),
-                            Text('Marca: ${data2?['brand']}'),
-                            Text('Modelo: ${data2?['model']}'),
-                            Text('nucleos: ${data2?['cores']}'),
-                            Text('frecuencia: ${data2?['minfreq']}'),
-                            Text('generacion: ${data2?['generation']}'),
-                            Text('famila: ${data2?['family']}'),
-                            Text('tipo: ${data2?['type']}'),
-                          ],
+                            Navigator.pushNamed(context, 'viewAllProcessors');
+                          },
+                          child: Text(
+                            data2 != null ? '${data2['brand']}' : '+',
+                            style: selectTextButtonStyle(),
+                          ),
                         ),
                       ),
                     ],
@@ -112,6 +102,23 @@ class ComparatorAddPage extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  TextStyle selectTextButtonStyle() =>
+      TextStyle(color: Colors.black, fontSize: 15.0);
+
+  ButtonStyle selectButtonStyle() {
+    return ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(Color(0xFFCBD7DD)),
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+      side: MaterialStateProperty.all<BorderSide>(
+        const BorderSide(color: Colors.black, width: 2),
       ),
     );
   }

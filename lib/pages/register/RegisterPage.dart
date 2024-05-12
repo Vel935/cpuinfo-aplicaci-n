@@ -24,6 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     return Scaffold(
         appBar: MyAppBar(),
+        // backgroundColor: const Color(0xFF35353),
         body: ListView(
           children: [formUserRegister(context)],
         ));
