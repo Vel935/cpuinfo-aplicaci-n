@@ -225,15 +225,43 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                             .actualPage;
                         if (selected == "modifyCPU") {
                           print("Modificar CPU");
-                          //Provider.of<CpuComparatorProvider>(context,
-                          //        listen: false)
-                          //    .updateActualPage("");
+                          print(processor.id);
                           Navigator.pushNamed(context, 'modifyCPU',
                               arguments: {"data": processor});
                           return;
                         } else if (selected == "deleteCPU") {
                           print("Eliminar CPU");
-                          // Acción para el botón 3
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Confirmar Eliminación"),
+                                content: Text(
+                                    "¿Estás seguro de que deseas eliminar este CPU?"),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(
+                                          context); // Cerrar el diálogo
+                                    },
+                                    child: Text("Cancelar"),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      CpuProvider()
+                                          .deactivateProcessor(processor.id);
+                                      Navigator.pop(
+                                          context); // Cerrar el diálogo
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Color(
+                                            color.red)), // Estilo de botón rojo
+                                    child: Text("Eliminar"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                           return;
                         } else {
                           print("Ver información del procesador");

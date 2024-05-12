@@ -34,6 +34,9 @@ class cpuCrudPage extends StatelessWidget {
               LargeButton(
                 text: 'Eliminar CPU',
                 onPressed: () {
+                  Provider.of<CpuComparatorProvider>(context, listen: false)
+                      .updateActualPage("deleteCPU");
+                  Navigator.pushNamed(context, 'viewAllProcessors');
                   // Acción para el botón 3
                 },
               ),

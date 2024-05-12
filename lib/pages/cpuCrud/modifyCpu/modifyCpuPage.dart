@@ -47,7 +47,7 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
     _selectedBrand = data['brand'];
     _selectedType = data['type'];
 
-    _idController.text = data['id'];
+    _idController.text = snapshot.id;
 
     return Scaffold(
       appBar: mainAppBar(),
