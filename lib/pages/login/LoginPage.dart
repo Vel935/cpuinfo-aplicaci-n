@@ -6,6 +6,8 @@ import 'package:cpuinfo_application/providers/UserProvider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import '../../firebase_options.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
@@ -55,6 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                     textFieldEmail(), //metodo que genera un espacio para ingresar informacion (TextField), en este caso el correo
                     textFieldPassword(), //metodo que genera un campo de texto para ingresar la contraseña
                     buttonLogin(), //Metodo que genera un boton para enviar los datos, en este caso se llama ingresar
+                    buttonLoginWithGoogle(),
                     textDontHaveAccount(
                         context) //metodo que genera dos textos en una fila "no tienes cuenta" y "registrate"
                   ],
@@ -146,6 +149,33 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget buttonLoginWithGoogle() {
+    //funcion que me genera el boton Ingresar
+    return Container(
+      width: double.infinity, //ancho del boton
+      margin: const EdgeInsets.symmetric(
+          horizontal: 50,
+          vertical: 20), //margen horizontal y vertical del boton
+      child: ElevatedButton(
+          onPressed: () {
+            //si cuando se llama la funcion de login retorna true, entonces se navega a la pagina de home
+            userValidationWithGoogle(context);
+          }, // onPressed: _con.login, //esto es para que cuando se presione el boton INGRESAR se llame a la funcion "login" del controlador
+          child: Text('INGRESAR CON GOOGLE'),
+          style: ElevatedButton.styleFrom(
+              //elevated buttom tiene una propiedad llamada style
+              // primary: MyColors.primaryColor, //esto cambia el color del boton llamando a la clase que creamos con anterioridad
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      30) //con esto redondeamos la forma del boton
+                  ),
+              padding: const EdgeInsets.symmetric(
+                  vertical:
+                      15) //margen interior para el boton, esto puede modificar la forma del boton
+              )),
+    );
+  }
+
 //____________________________
   Future<void> userValidation() async {
     print(controller.login(user.mail, user.password));
@@ -161,6 +191,27 @@ class _LoginPageState extends State<LoginPage> {
       );
       print('Usuario no encontrado');
     }
+  }
+
+  // Future<void> userValidationWithGoogle() async {
+  //   if (await controller.signInWithGoogle()) {
+  //     Navigator.pushNamed(context, "firstPage");
+  //     //Navigator.popAndPushNamed(context, 'firstPage');
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text('Fallo al iniciar sesión'),
+  //         duration: Duration(seconds: 5),
+  //       ),
+  //     );
+  //     print('Usuario no encontrado');
+  //   }
+  // }
+
+  userValidationWithGoogle(BuildContext context) async {
+    await controller.signInWithGoogle();
+
+    Navigator.pushNamedAndRemoveUntil(context, "home", (route) => false);
   }
 
 //_____________________________________
