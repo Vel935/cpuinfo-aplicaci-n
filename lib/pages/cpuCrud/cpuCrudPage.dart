@@ -1,6 +1,8 @@
 import 'package:cpuinfo_application/main.dart';
+import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class cpuCrudPage extends StatelessWidget {
   @override
@@ -23,13 +25,18 @@ class cpuCrudPage extends StatelessWidget {
               LargeButton(
                 text: 'Modificar CPU',
                 onPressed: () {
-                  // Acción para el botón 2
+                  Provider.of<CpuComparatorProvider>(context, listen: false)
+                      .updateActualPage("modifyCPU");
+                  Navigator.pushNamed(context, 'viewAllProcessors');
                 },
               ),
               SizedBox(height: 20), // Espacio entre botones
               LargeButton(
                 text: 'Eliminar CPU',
                 onPressed: () {
+                  Provider.of<CpuComparatorProvider>(context, listen: false)
+                      .updateActualPage("deleteCPU");
+                  Navigator.pushNamed(context, 'viewAllProcessors');
                   // Acción para el botón 3
                 },
               ),

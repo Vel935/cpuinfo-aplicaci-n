@@ -1,13 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cpuinfo_application/main.dart';
 import 'package:cpuinfo_application/pages/cpuCrud/addCpuPage/addCpuPageController.dart';
+import 'package:cpuinfo_application/pages/cpuCrud/modifyCpu/modifyCpuController.dart';
+import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class CreateCpuPage extends StatefulWidget {
+class ModifyCpuPage extends StatefulWidget {
   @override
-  _CreateCpuPageState createState() => _CreateCpuPageState();
+  _ModifyCpuPageState createState() => _ModifyCpuPageState();
 }
 
-class _CreateCpuPageState extends State<CreateCpuPage> {
+class _ModifyCpuPageState extends State<ModifyCpuPage> {
   final TextEditingController _familyController = TextEditingController();
   final TextEditingController _frequencyController = TextEditingController();
   final TextEditingController _coresController = TextEditingController();
@@ -25,6 +29,8 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
   final TextEditingController _maxFreqController = TextEditingController();
   final TextEditingController _pciExpressController = TextEditingController();
 
+  TextEditingController _idController = TextEditingController();
+
   String _selectedBrand = 'INTEL'; // Default brand selection
   String _selectedType = 'Desktop'; // Default type selection
 
@@ -35,10 +41,34 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
     return null;
   }
 
-  final CreateCpuController _cpuController = CreateCpuController();
+  final ModifyCpuController _cpuController = ModifyCpuController();
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    final snapshot = args["data"] as DocumentSnapshot; // Cambio aquí
+    final data = snapshot.data() as Map<String, dynamic>; // Cambio aquí
+
+    _familyController.text = data['family'];
+    _frequencyController.text = data['freq'].toString();
+    _coresController.text = data['cores'].toString();
+    _generationController.text = data['generation'].toString();
+    _modelController.text = data['model'];
+    _selectedBrand = data['brand'];
+    _selectedType = data['type'];
+    _socketController.text = data['socket'];
+    _integratedGpuController.text = data['integratedGpu'];
+    _architectureController.text = data['architecture'];
+    _lithographyController.text = data['lithography'].toString();
+    _tdpController.text = data['tdp'].toString();
+    _priceController.text = data['price'].toString();
+    _threadsController.text = data['threads'].toString();
+    _maxFreqController.text = data['maxFreq'].toString();
+    _pciExpressController.text = data['pciExpress'].toString();
+
+    _idController.text = snapshot.id;
+
     return Scaffold(
       appBar: mainAppBar(),
       body: Container(
@@ -89,7 +119,8 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
                 ),
                 TextFormField(
                   controller: _frequencyController,
-                  decoration: InputDecoration(labelText: 'Frecuencia (GHz)'),
+                  decoration:
+                      InputDecoration(labelText: 'Frecuencia Minima (GHz)'),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   validator: _validateInput,
                 ),
@@ -111,6 +142,7 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
                   keyboardType: TextInputType.number,
                   validator: _validateInput,
                 ),
+                SizedBox(height: 20),
                 TextFormField(
                   controller: _socketController,
                   decoration: InputDecoration(labelText: 'Socket'),
@@ -129,19 +161,19 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
                 TextFormField(
                   controller: _lithographyController,
                   decoration: InputDecoration(labelText: 'Litografía'),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: TextInputType.number,
                   validator: _validateInput,
                 ),
                 TextFormField(
                   controller: _tdpController,
                   decoration: InputDecoration(labelText: 'TDP'),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: TextInputType.number,
                   validator: _validateInput,
                 ),
                 TextFormField(
                   controller: _priceController,
                   decoration: InputDecoration(labelText: 'Precio'),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: TextInputType.number,
                   validator: _validateInput,
                 ),
                 TextFormField(
@@ -152,17 +184,17 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
                 ),
                 TextFormField(
                   controller: _maxFreqController,
-                  decoration: InputDecoration(labelText: 'Frecuencia Máxima'),
+                  decoration:
+                      InputDecoration(labelText: 'Frecuencia Máxima (GHz)'),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   validator: _validateInput,
                 ),
                 TextFormField(
                   controller: _pciExpressController,
                   decoration: InputDecoration(labelText: 'PCI Express'),
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   validator: _validateInput,
                 ),
-                SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(20.0),
@@ -171,9 +203,9 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
                     ),
                     backgroundColor: const Color(0xFF353535),
                   ),
-                  onPressed: _createCpu,
+                  onPressed: _modifyCpu,
                   child: Text(
-                    'Crear CPU',
+                    'Modificar CPU',
                     style: const TextStyle(fontSize: 20.0, color: Colors.white),
                   ),
                 ),
@@ -185,14 +217,14 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
     );
   }
 
-  void _createCpu() {
+  void _modifyCpu() {
     if (fieldValidation()) {
       _cpuController
-          .createCpu(
+          .modifyCpu(
         brand: _selectedBrand,
         type: _selectedType,
         family: _familyController.text,
-        freq: double.parse(_frequencyController.text),
+        minfreq: double.parse(_frequencyController.text),
         cores: int.parse(_coresController.text),
         generation: int.parse(_generationController.text),
         model: _modelController.text,
@@ -205,15 +237,18 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
         threads: int.parse(_threadsController.text),
         maxFreq: double.parse(_maxFreqController.text),
         pciExpress: double.parse(_pciExpressController.text),
+        id: _idController.text,
       )
           .then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('CPU creado correctamente')),
+          SnackBar(content: Text('CPU modificado correctamente')),
         );
-        Navigator.pop(context); // Regresar a la página anterior
+        //Navigator.pop(context); // Regresar a la página anterior
+        //Navigator.popUntil(context, (route) => route.isFirst);
+        Navigator.popUntil(context, ModalRoute.withName('cpuCrudPage'));
       }).catchError((error) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al crear CPU')),
+          SnackBar(content: Text('Error al modificar CPU')),
         );
       });
     } else {

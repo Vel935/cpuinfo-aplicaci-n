@@ -1,5 +1,6 @@
 import 'package:cpuinfo_application/pages/cpuCrud/addCpuPage/addCpuPage.dart';
 import 'package:cpuinfo_application/pages/cpuCrud/cpuCrudPage.dart';
+import 'package:cpuinfo_application/pages/cpuCrud/modifyCpu/modifyCpuPage.dart';
 import 'package:cpuinfo_application/pages/cpuInformation/CpuInformationPage.dart';
 import 'package:cpuinfo_application/pages/firstPage/firstPage.dart';
 import 'package:cpuinfo_application/pages/homePage/homePage.dart';
@@ -42,7 +43,7 @@ class MainApp extends StatelessWidget {
       key: navigatorKey,
       title: "CPU INFO",
       debugShowCheckedModeBanner: false,
-      initialRoute: "login",
+      initialRoute: "home",
       routes: {
         "login": (BuildContext context) => LoginPage(),
         "register": (context) => RegisterPage(),
@@ -53,6 +54,7 @@ class MainApp extends StatelessWidget {
         "addCPU": (context) => CreateCpuPage(),
         "viewAllProcessors": (context) => const ViewAllProcessorsPage(),
         "viewProcesorInformation": (context) => CpuInformationPage(),
+        "modifyCPU": (context) => ModifyCpuPage(),
       },
     );
   }

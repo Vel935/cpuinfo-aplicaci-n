@@ -7,21 +7,10 @@ class CpuProvider extends ChangeNotifier {
   final String collection = 'processors';
 
   Future<String> createCPU(Map<String, dynamic> cpu) async {
-    // Generate custom ID based on brand, family, and model
-    String brand = cpu['brand'];
-    String family = cpu['family'];
-    String model = cpu['model'];
-    String customId = '$brand $family $model';
-
-    // Add custom ID to CPU data
-    cpu['id'] = customId;
-
-    // Add CPU to Firestore with custom ID
-    await db.collection(collection).doc(customId).set(cpu);
-
     notifyListeners();
-
-    return customId;
+    var defaultId = await db.collection(collection).add(cpu);
+    notifyListeners();
+    return 'CPU added with default ID: $defaultId';
   }
 
   // Metodos usados para la lista de procesadores:
@@ -55,5 +44,27 @@ class CpuProvider extends ChangeNotifier {
     }
     return families
         .toList(); // Convertir el conjunto a una lista antes de retornarlo
+  }
+
+  modifyProcessorAndId(
+      String id, String newId, Map<String, dynamic> cpu) async {
+    deleteProcessor(id);
+    await db.collection(collection).doc(newId).set(cpu);
+    notifyListeners();
+  }
+
+  deleteProcessor(String id) async {
+    await db.collection(collection).doc(id).delete();
+    notifyListeners();
+  }
+
+  deactivateProcessor(String id) async {
+    await db.collection(collection).doc(id).update({'visible': false});
+    notifyListeners();
+  }
+
+  modifyProcessor(String id, Map<String, dynamic> cpu) async {
+    await db.collection(collection).doc(id).update(cpu);
+    notifyListeners();
   }
 }

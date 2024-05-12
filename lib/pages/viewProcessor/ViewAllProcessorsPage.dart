@@ -219,10 +219,56 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                     borderRadius: BorderRadius.circular(10.0),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context,
-                            "viewProcesorInformation", // Pasa la instantánea de documento
-                            arguments: {"data": processor});
-                        // arguments: {"data": processor});
+                        var selected = Provider.of<CpuComparatorProvider>(
+                                context,
+                                listen: false)
+                            .actualPage;
+                        if (selected == "modifyCPU") {
+                          print("Modificar CPU");
+                          print(processor.id);
+                          Navigator.pushNamed(context, 'modifyCPU',
+                              arguments: {"data": processor});
+                          return;
+                        } else if (selected == "deleteCPU") {
+                          print("Eliminar CPU");
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Confirmar Eliminación"),
+                                content: Text(
+                                    "¿Estás seguro de que deseas eliminar este CPU?"),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(
+                                          context); // Cerrar el diálogo
+                                    },
+                                    child: Text("Cancelar"),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      CpuProvider()
+                                          .deactivateProcessor(processor.id);
+                                      Navigator.pop(
+                                          context); // Cerrar el diálogo
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Color(
+                                            color.red)), // Estilo de botón rojo
+                                    child: Text("Eliminar"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                          return;
+                        } else {
+                          print("Ver información del procesador");
+                          Navigator.pushNamed(context,
+                              "viewProcesorInformation", // Pasa la instantánea de documento
+                              arguments: {"data": processor});
+                        }
                       },
                       child: Container(
                         color: color,

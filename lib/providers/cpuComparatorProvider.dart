@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class CpuComparatorProvider extends ChangeNotifier {
   bool _comparing = false;
+  String _actualPage = "";
   String palabra = "SANCOCHO";
   bool chica = false;
 
@@ -13,6 +14,7 @@ class CpuComparatorProvider extends ChangeNotifier {
       "sabor"; // Variable para almacenar el último botón presionado
 
   bool get comparing => _comparing;
+  String get actualPage => _actualPage;
 
   Map<String, dynamic>? get data1 => _data1;
   Map<String, dynamic>? get data2 => _data2;
@@ -23,6 +25,11 @@ class CpuComparatorProvider extends ChangeNotifier {
 
   void updateState(bool value) {
     _comparing = value;
+    notifyListeners(); // Notifica a los widgets suscritos sobre el cambio
+  }
+
+  void updateActualPage(String page) {
+    _actualPage = page;
     notifyListeners(); // Notifica a los widgets suscritos sobre el cambio
   }
 
