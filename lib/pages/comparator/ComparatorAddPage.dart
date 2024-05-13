@@ -32,7 +32,11 @@ class ComparatorAddPage extends StatelessWidget {
             children: [
               Expanded(
                 child: Container(
-                  color: Colors.white,
+                  color: (data1?["brand"] == "AMD")
+                      ? Colors.orange
+                      : (data1?["brand"].toLowerCase() == "intel")
+                          ? Colors.blue
+                          : Colors.white,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -52,7 +56,8 @@ class ComparatorAddPage extends StatelessWidget {
 
                             Navigator.pushNamed(context, 'viewAllProcessors');
                           },
-                          child: Text(data1 != null ? '${data1['brand']}' : '+',
+                          child: Text(
+                              data1 != null ? '${data1['fullName']}' : '+',
                               style: selectTextButtonStyle()),
                         ),
                       ),
@@ -66,7 +71,11 @@ class ComparatorAddPage extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  color: Colors.white,
+                  color: (data2?["brand"] == "AMD")
+                      ? Colors.orange
+                      : (data2?["brand"].toLowerCase() == "intel")
+                          ? Colors.blue
+                          : Colors.white,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -90,7 +99,7 @@ class ComparatorAddPage extends StatelessWidget {
                             Navigator.pushNamed(context, 'viewAllProcessors');
                           },
                           child: Text(
-                            data2 != null ? '${data2['brand']}' : '+',
+                            data2 != null ? '${data2['fullName']}' : '+',
                             style: selectTextButtonStyle(),
                           ),
                         ),

@@ -138,16 +138,34 @@ class _RegisterPageState extends State<RegisterPage> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
       ),
-      child: TextFormField(
-        obscureText: true,
-        decoration: const InputDecoration(
-          hintText: 'Contraseña',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(15),
-          prefixIcon: Icon(Icons.lock),
-        ),
-        onChanged: (value) => user.password = value,
-        validator: controller.validPasswordField, // Aquí se asigna el validador
+      child: Column(
+        children: [
+          TextFormField(
+            obscureText: true,
+            decoration: const InputDecoration(
+              hintText: 'Contraseña',
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.all(15),
+              prefixIcon: Icon(Icons.lock),
+            ),
+            onChanged: (value) => user.password = value,
+            validator:
+                controller.validPasswordField, // Aquí se asigna el validador
+          ),
+          TextFormField(
+            obscureText: true,
+            decoration: const InputDecoration(
+              hintText: 'Confirmar contraseña',
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.all(15),
+              prefixIcon: Icon(Icons.lock_outline),
+            ),
+            onChanged: (value) => value,
+            validator: (value) => controller.validConfirmPasswordField(
+                value: value,
+                password: user.password), // Aquí se asigna el validador
+          ),
+        ],
       ),
     );
   }

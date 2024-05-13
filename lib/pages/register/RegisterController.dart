@@ -66,6 +66,24 @@ class RegisterController {
     return null;
   }
 
+  String? validConfirmPasswordField({String? value, required String password}) {
+    if (value == null || value.isEmpty) {
+      return "El campo es obligatorio.";
+    }
+    print("contraseña $password");
+    print("value $value");
+
+    if (password != value) {
+      return "Las contraseñas deben coincidir";
+    }
+
+    if (value.length < 8) {
+      return "El campo debe tener al menos 8 caracteres.";
+    }
+
+    return null;
+  }
+
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
