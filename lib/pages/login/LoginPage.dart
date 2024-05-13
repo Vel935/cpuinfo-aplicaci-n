@@ -145,9 +145,10 @@ class _LoginPageState extends State<LoginPage> {
           }, // onPressed: _con.login, //esto es para que cuando se presione el boton INGRESAR se llame a la funcion "login" del controlador
           child: Text(
             'INGRESAR',
-            style: TextStyle(),
+            style: TextStyle(color: Colors.white),
           ),
           style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xFF353535),
               //elevated buttom tiene una propiedad llamada style
               // primary: MyColors.primaryColor, //esto cambia el color del boton llamando a la clase que creamos con anterioridad
               shape: RoundedRectangleBorder(

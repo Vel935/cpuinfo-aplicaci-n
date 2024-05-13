@@ -41,7 +41,7 @@ class ModifyCpuController {
       threads: threads,
       maxFreq: maxFreq,
       pciExpress: pciExpress,
-      fullName: fullName,
+      fullName: brand + ' ' + family + ' ' + model + '',
     );
 
     // Llamar al método para crear la CPU en la base de datos
