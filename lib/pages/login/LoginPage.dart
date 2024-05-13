@@ -52,10 +52,16 @@ class _LoginPageState extends State<LoginPage> {
                   //ocupamos la columna para poner elementos uno debajo del otro
                   //mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(
+                      height: 20,
+                    ),
                     //aqui adentro de children pondremos todo el contenido de la columna
                     //_imageBanner(), //llamamos al metodo que nos muestra la imagen que aparece en la pantalla
                     Container(
                       child: getLogo(),
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                     textFieldEmail(), //metodo que genera un espacio para ingresar informacion (TextField), en este caso el correo
                     textFieldPassword(), //metodo que genera un campo de texto para ingresar la contraseña
@@ -137,7 +143,10 @@ class _LoginPageState extends State<LoginPage> {
             //si cuando se llama la funcion de login retorna true, entonces se navega a la pagina de home
             userValidation();
           }, // onPressed: _con.login, //esto es para que cuando se presione el boton INGRESAR se llame a la funcion "login" del controlador
-          child: Text('INGRESAR'),
+          child: Text(
+            'INGRESAR',
+            style: TextStyle(),
+          ),
           style: ElevatedButton.styleFrom(
               //elevated buttom tiene una propiedad llamada style
               // primary: MyColors.primaryColor, //esto cambia el color del boton llamando a la clase que creamos con anterioridad
@@ -286,7 +295,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget getLogo() {
     return Image.asset(
-      'assets/img/logo.png', // Ruta de la imagen dentro de la carpeta assets
+      'assets/img/logo2.png', // Ruta de la imagen dentro de la carpeta assets
       width: 200, // Ancho deseado de la imagen
       height: 200, // Alto deseado de la imagen
       fit: BoxFit.contain, // Ajuste de la imagen dentro del contenedor

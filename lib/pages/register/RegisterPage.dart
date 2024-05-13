@@ -172,7 +172,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget getLogo() {
     return Image.asset(
-      'assets/img/logo.png', // Ruta de la imagen dentro de la carpeta assets
+      'assets/img/logo2.png', // Ruta de la imagen dentro de la carpeta assets
       width: 200, // Ancho deseado de la imagen
       height: 200, // Alto deseado de la imagen
       fit: BoxFit.contain, // Ajuste de la imagen dentro del contenedor

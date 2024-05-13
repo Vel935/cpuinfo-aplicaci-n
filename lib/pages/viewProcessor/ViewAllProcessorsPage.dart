@@ -215,6 +215,9 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
               itemCount: filteredProcessors.length,
               itemBuilder: (_, index) {
                 var processor = filteredProcessors[index];
+                if (!processor['visible']) {
+                  return SizedBox(); // Retorna un contenedor vacío si el procesador no es visible
+                }
                 var name = processor["fullName"];
                 var brand = processor['brand'];
                 Color color;
@@ -232,9 +235,9 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                     child: GestureDetector(
                       onTap: () {
                         var selected = Provider.of<CpuComparatorProvider>(
-                                context,
-                                listen: false)
-                            .actualPage;
+                          context,
+                          listen: false,
+                        ).actualPage;
                         if (selected == "modifyCPU") {
                           print("Modificar CPU");
                           print(processor.id);
@@ -265,24 +268,25 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                                 content: const Text(
                                   "¿Estás seguro de que deseas eliminar este CPU?",
                                   style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Colors
-                                          .white // Tamaño del texto del contenido
-                                      ),
+                                    fontSize: 16.0,
+                                    color: Colors
+                                        .white, // Tamaño del texto del contenido
+                                  ),
                                 ),
                                 actions: [
                                   TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(
-                                            context); // Cerrar el diálogo
-                                      },
-                                      child: Text(
-                                        "Cancelar",
-                                        style: TextStyle(
-                                          color:
-                                              color, // Color del texto del botón
-                                        ),
-                                      )),
+                                    onPressed: () {
+                                      Navigator.pop(
+                                          context); // Cerrar el diálogo
+                                    },
+                                    child: Text(
+                                      "Cancelar",
+                                      style: TextStyle(
+                                        color:
+                                            color, // Color del texto del botón
+                                      ),
+                                    ),
+                                  ),
                                   ElevatedButton(
                                     onPressed: () {
                                       CpuProvider()
