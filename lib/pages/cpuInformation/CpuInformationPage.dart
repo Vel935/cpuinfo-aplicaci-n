@@ -1,8 +1,12 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart'; // Importar para JsonQueryDocumentSnapshot
 import 'package:cpuinfo_application/main.dart';
 import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class CpuInformationPage extends StatefulWidget {
@@ -23,21 +27,85 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
     // final lastButtonPressed = CpuComparatorProvider().lastButtonPressed;
     final lastButtonPressed = Provider.of<CpuComparatorProvider>(context);
 
+    Color color() {
+      if (data['brand'] == 'INTEL') {
+        return Colors.blue;
+      } else if (data['brand'] == 'AMD') {
+        return Colors.orange;
+      } else {
+        return Colors.black;
+      }
+    }
+
+    Color setLetterColor() {
+      if (data['brand'] == 'INTEL') {
+        return Colors.white;
+      } else if (data['brand'] == 'AMD') {
+        return Colors.white;
+      } else {
+        return Colors.black;
+      }
+    }
+
+    final chica = CpuComparatorProvider().getpalabra;
+
     return Scaffold(
       appBar: MyAppBar(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Información del procesador:'),
-            Text('marca: ${data['brand']}'),
-            Text('modelo: ${data['model']}'),
-            Text('nucleos: ${data['cores']}'),
-            Text('frecuencia: ${data['minfreq']}'),
-            Text('generacion: ${data['generation']}'),
-            Text('famila: ${data['family']}'),
-            Text('tipo: ${data['type']}'),
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(3),
+          decoration: BoxDecoration(color: Color(0xFF353535)),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                fullProcessorName(color, data, setLetterColor),
+                Row(
+                  children: [
+                    mainSpecsBoxes(color, data, "Nucleos",
+                        data['cores'].toString(), setLetterColor),
+                    mainSpecsBoxes(color, data, "Frecuencia",
+                        "${data['maxFreq']} GHz", setLetterColor),
+                    mainSpecsBoxes(color, data, "Precio", "\$${data['price']}",
+                        setLetterColor)
+                  ],
+                ),
+                const Divider(
+                  height: 20, // Altura de la línea
+                  thickness: 1, // Grosor de la línea
+                  color: Colors.grey,
+                  endIndent: 12.0, // Color de la línea
+                  indent: 12.0, // Color de la línea
+                ),
+                specsLine(color, setLetterColor, data, "Frecuencia base",
+                    "${data['minfreq']} GHz"),
+                specsLine(color, setLetterColor, data, "Marca",
+                    data['brand'].toString()),
+                specsLine(color, setLetterColor, data, "Modelo",
+                    data['model'].toString()),
+                specsLine(color, setLetterColor, data, "Generacion",
+                    data['generation'].toString()),
+                specsLine(color, setLetterColor, data, "Familia",
+                    data['family'].toString()),
+                specsLine(color, setLetterColor, data, "Tipo",
+                    data['type'].toString()),
+                specsLine(color, setLetterColor, data, "Socket",
+                    data['socket'].toString()),
+                specsLine(color, setLetterColor, data, "GPU",
+                    data['integratedGpu'].toString()),
+                specsLine(color, setLetterColor, data, "Arquitectura",
+                    data['architecture'].toString()),
+                specsLine(color, setLetterColor, data, "Proceso de Fabricacion",
+                    "${data['lithography']} nm"),
+                specsLine(
+                    color, setLetterColor, data, "TDP", "${data['tdp']}" "W"),
+                specsLine(
+                    color, setLetterColor, data, "Hilos", "${data['threads']}"),
+                specsLine(color, setLetterColor, data, "Version PCIe",
+                    "${data['pciExpress']}"),
+              ],
+            ),
+          ),
         ),
       ),
       floatingActionButton: comparadorProvider.comparing
@@ -69,6 +137,136 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
               child: Icon(Icons.add),
             )
           : null,
+    );
+  }
+
+  Row specsLine(Color color(), Color setLetterColor(),
+      Map<String, dynamic> data, String textLine, dynamic textData) {
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Container(
+              margin: const EdgeInsets.only(left: 5, right: 5),
+              decoration: BoxDecoration(
+                border: Border.all(color: color()),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 5, top: 5, bottom: 5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(9),
+                        color: color(),
+                      ),
+                      child: Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Text(textLine,
+                              style: TextStyle(
+                                  color: setLetterColor(),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600))),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 15, right: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text("$textData",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: setLetterColor()))
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Expanded mainSpecsBoxes(
+      Color color(),
+      Map<String, dynamic> data,
+      String superiorText,
+      String inferiorText,
+      Color Function() setLetterColor) {
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          border: Border.all(color: color()),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(9),
+                color: color(),
+              ),
+              child: Text(
+                superiorText,
+                style: TextStyle(
+                    backgroundColor: color(), color: setLetterColor()),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                children: [
+                  Text(inferiorText,
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600,
+                          color: setLetterColor()))
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Row fullProcessorName(Color Function() color, Map<String, dynamic> data,
+      Color Function() setLetterColor) {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: color(),
+              ),
+              child: Text(
+                '${data['brand']} ${data['family']} ${data['model']}',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: setLetterColor(),
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                ),
+              )),
+        ),
+      ],
     );
   }
 }

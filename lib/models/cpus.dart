@@ -16,6 +16,7 @@ class Cpu {
   late int threads;
   late double maxFreq;
   late double pciExpress;
+  late String fullName;
 
   Cpu({
     required this.type,
@@ -35,6 +36,7 @@ class Cpu {
     required this.threads,
     required this.maxFreq,
     required this.pciExpress,
+    required this.fullName,
   });
 
   Cpu.empty() {
@@ -55,6 +57,7 @@ class Cpu {
     threads = 0;
     maxFreq = 0.0;
     pciExpress = 0.0;
+    fullName = "";
   }
 
   // toJson method to convert object to JSON
@@ -77,6 +80,7 @@ class Cpu {
       'threads': threads,
       'maxFreq': maxFreq,
       'pciExpress': pciExpress,
+      'fullName': fullName,
     };
   }
 }

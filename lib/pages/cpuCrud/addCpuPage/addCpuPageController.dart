@@ -39,6 +39,7 @@ class CreateCpuController {
       threads: threads,
       maxFreq: maxFreq,
       pciExpress: pciExpress,
+      fullName: '$brand $family $model',
     );
 
     // Llamar al método para crear la CPU en la base de datos

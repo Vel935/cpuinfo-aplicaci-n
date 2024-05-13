@@ -20,6 +20,7 @@ class ModifyCpuController {
     required double maxFreq,
     required double pciExpress,
     required String id,
+    required String fullName,
   }) async {
     // Lógica para crear la CPU y guardarla en la base de datos
     Cpu cpu = Cpu(
@@ -40,6 +41,7 @@ class ModifyCpuController {
       threads: threads,
       maxFreq: maxFreq,
       pciExpress: pciExpress,
+      fullName: fullName,
     );
 
     // Llamar al método para crear la CPU en la base de datos

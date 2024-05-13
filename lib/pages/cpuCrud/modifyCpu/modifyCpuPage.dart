@@ -28,6 +28,7 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
   final TextEditingController _threadsController = TextEditingController();
   final TextEditingController _maxFreqController = TextEditingController();
   final TextEditingController _pciExpressController = TextEditingController();
+  final TextEditingController _fullNameController = TextEditingController();
 
   TextEditingController _idController = TextEditingController();
 
@@ -51,7 +52,7 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
     final data = snapshot.data() as Map<String, dynamic>; // Cambio aquí
 
     _familyController.text = data['family'];
-    _frequencyController.text = data['freq'].toString();
+    _frequencyController.text = data['minfreq'].toString();
     _coresController.text = data['cores'].toString();
     _generationController.text = data['generation'].toString();
     _modelController.text = data['model'];
@@ -66,6 +67,7 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
     _threadsController.text = data['threads'].toString();
     _maxFreqController.text = data['maxFreq'].toString();
     _pciExpressController.text = data['pciExpress'].toString();
+    _fullNameController.text = data['fullName'];
 
     _idController.text = snapshot.id;
 
@@ -238,6 +240,7 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
         maxFreq: double.parse(_maxFreqController.text),
         pciExpress: double.parse(_pciExpressController.text),
         id: _idController.text,
+        fullName: _fullNameController.text,
       )
           .then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -272,6 +275,7 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
         _validateInput(_priceController.text) == null &&
         _validateInput(_threadsController.text) == null &&
         _validateInput(_maxFreqController.text) == null &&
-        _validateInput(_pciExpressController.text) == null;
+        _validateInput(_pciExpressController.text) == null &&
+        _validateInput(_fullNameController.text) == null;
   }
 }
