@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart'; // Importar para JsonQuer
 import 'package:cpuinfo_application/main.dart';
 import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -49,11 +50,11 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
     final chica = CpuComparatorProvider().getpalabra;
 
     return Scaffold(
-      appBar: mainAppBar(),
+      appBar: MyAppBar(),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(3),
-          decoration: BoxDecoration(color: Color.fromRGBO(81, 81, 81, 1)),
+          decoration: BoxDecoration(color: Color(0xFF353535)),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -112,24 +113,18 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
               onPressed: () {
                 String variable = "";
                 variable = lastButtonPressed.lastButtonPressed;
-                print(
-                    'ALL RIGHT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!$variable');
-                // print(
-                //     'ALL RIGHT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!$lastButtonPressed');
-                // print(
-                //     'PALABRAAAAAA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!$palabra');
 
                 Provider.of<CpuComparatorProvider>(context, listen: false)
                     .updateState(false);
 
                 if (variable == "right") {
-                  print("RIGHTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT $snapshot");
+                  // print("RIGHTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT $snapshot");
                   Provider.of<CpuComparatorProvider>(context, listen: false)
                       .setData1(snapshot);
                 }
 
                 if (variable == "left") {
-                  print("LEFTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT $snapshot");
+                  // print("LEFTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT $snapshot");
                   Provider.of<CpuComparatorProvider>(context, listen: false)
                       .setData2(snapshot);
                 }

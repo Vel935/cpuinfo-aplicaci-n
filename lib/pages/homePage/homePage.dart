@@ -1,5 +1,6 @@
 import 'package:cpuinfo_application/main.dart';
 import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
+import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,7 +10,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: mainAppBar(),
+      appBar: MyAppBar(),
       body: Container(
         alignment: Alignment.topLeft,
         width: double.infinity,

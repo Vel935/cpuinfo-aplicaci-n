@@ -14,7 +14,8 @@ class ComparatorAddPage extends StatelessWidget {
     final data2 = comparatorProvider.data2;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("CPUINFO"),
+        backgroundColor: const Color(0xFF353535),
+        title: const Text("CPU INFO", style: TextStyle(color: Colors.white)),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -38,6 +39,7 @@ class ComparatorAddPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
+                          style: selectButtonStyle(),
                           onPressed: () {
                             Provider.of<CpuComparatorProvider>(context,
                                     listen: false)
@@ -50,7 +52,8 @@ class ComparatorAddPage extends StatelessWidget {
 
                             Navigator.pushNamed(context, 'viewAllProcessors');
                           },
-                          child: Text(data1 != null ? '${data1['id']}' : '+'),
+                          child: Text(data1 != null ? '${data1['brand']}' : '+',
+                              style: selectTextButtonStyle()),
                         ),
                       ),
                     ],
@@ -70,6 +73,7 @@ class ComparatorAddPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
+                          style: selectButtonStyle(),
                           onPressed: () {
                             Provider.of<CpuComparatorProvider>(context,
                                     listen: false)
@@ -85,7 +89,10 @@ class ComparatorAddPage extends StatelessWidget {
 
                             Navigator.pushNamed(context, 'viewAllProcessors');
                           },
-                          child: Text(data2 != null ? '${data2['id']}' : '+'),
+                          child: Text(
+                            data2 != null ? '${data2['brand']}' : '+',
+                            style: selectTextButtonStyle(),
+                          ),
                         ),
                       ),
                     ],
@@ -95,6 +102,23 @@ class ComparatorAddPage extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  TextStyle selectTextButtonStyle() =>
+      TextStyle(color: Colors.black, fontSize: 15.0);
+
+  ButtonStyle selectButtonStyle() {
+    return ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(Color(0xFFCBD7DD)),
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+      side: MaterialStateProperty.all<BorderSide>(
+        const BorderSide(color: Colors.black, width: 2),
       ),
     );
   }

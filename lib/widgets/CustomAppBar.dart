@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
-
-  const MyAppBar({Key? key, required this.title}) : super(key: key);
+  const MyAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: const Color(0xFF353535),
       title: const Text("CPU INFO", style: TextStyle(color: Colors.white)),
+      bottom: PreferredSize(
+        preferredSize: Size.fromHeight(1.0),
+        child: Container(
+          color: Colors.black,
+          height: 1.0,
+        ),
+      ),
     );
   }
 

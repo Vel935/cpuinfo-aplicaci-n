@@ -71,5 +71,4 @@ class DefaultFirebaseOptions {
     authDomain: 'cpu-info-ed142.firebaseapp.com',
     storageBucket: 'cpu-info-ed142.appspot.com',
   );
-
 }

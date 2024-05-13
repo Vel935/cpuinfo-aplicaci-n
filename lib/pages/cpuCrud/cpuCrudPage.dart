@@ -1,5 +1,6 @@
 import 'package:cpuinfo_application/main.dart';
 import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
+import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,7 @@ class cpuCrudPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: mainAppBar(),
+      appBar: MyAppBar(),
       body: Container(
         color: Colors.grey, // Add grey background color
         child: Center(

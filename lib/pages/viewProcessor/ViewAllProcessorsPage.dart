@@ -1,6 +1,7 @@
 import 'package:cpuinfo_application/pages/viewProcessor/ViewAllProcessorsController.dart';
 import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
 import 'package:cpuinfo_application/providers/cpuProvider.dart';
+import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,9 +38,8 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('CPUINFO'),
-      ),
+      backgroundColor: const Color(0xFF353535),
+      appBar: MyAppBar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -65,12 +65,18 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                 SizedBox(height: 10),
                 Text(
                   'Etiquetas: ',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.white),
                 ),
                 SizedBox(height: 10),
                 DropdownButton(
                   value: null,
-                  hint: Text('Seleccionar etiquetas'),
+                  hint: const Text(
+                    'Seleccionar etiquetas',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   items: [...availableTags, ...availableFamilies].map((tag) {
                     return DropdownMenuItem(
                       value: tag,
@@ -101,11 +107,13 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
             width: MediaQuery.of(context)
                 .size
                 .width, // Ancho igual al ancho de la pantalla
-            height: 70, // Altura específica del contenedor padre
+            height: 50, // Altura específica del contenedor padre
             child: Row(
               children: [
                 Expanded(
                   child: Container(
+                    width: 50,
+                    height: 70,
                     color: Color(
                         0xFFFF6600), // Color de fondo para la imagen izquierda
                     child: GestureDetector(
@@ -120,8 +128,10 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                         // Lógica para la imagen izquierda
                       },
                       child: Image.asset(
-                        'assets/img/AMD.png', // Ruta de la imagen izquierda
-                        fit: BoxFit.cover, // Ajustar la imagen al contenedor
+                        'assets/img/AMD.png',
+                        // width: 100,
+                        // height: 200, // Ruta de la imagen izquierda
+                        // fit: BoxFit.cover, // Ajustar la imagen al contenedor
                       ),
                     ),
                   ),
@@ -130,6 +140,8 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
 
                 Expanded(
                   child: Container(
+                    width: 50,
+                    height: 70,
                     color: Color(
                         0xFF00B2FF), // Color de fondo para la imagen derecha
                     child: GestureDetector(
@@ -145,7 +157,7 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                       },
                       child: Image.asset(
                         'assets/img/intel.png', // Ruta de la imagen derecha
-                        fit: BoxFit.cover, // Ajustar la imagen al contenedor
+                        // fit: BoxFit.cover, // Ajustar la imagen al contenedor
                       ),
                     ),
                   ),
@@ -203,7 +215,7 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
               itemCount: filteredProcessors.length,
               itemBuilder: (_, index) {
                 var processor = filteredProcessors[index];
-                var docId = processor.id;
+                var name = processor["fullName"];
                 var brand = processor['brand'];
                 Color color;
                 if (brand.toLowerCase() == 'intel') {
@@ -273,7 +285,12 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                       child: Container(
                         color: color,
                         child: ListTile(
-                          title: Text(docId),
+                          title: Text(
+                            name,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ),

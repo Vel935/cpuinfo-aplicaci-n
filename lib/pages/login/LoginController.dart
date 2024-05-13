@@ -2,6 +2,7 @@ import 'package:cpuinfo_application/pages/login/user_auth/firebase_auth_implemen
 import 'package:cpuinfo_application/providers/UserProvider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginController {
   UserProvider userProvider = UserProvider();
@@ -48,5 +49,9 @@ class LoginController {
       print("autenticacion fallida");
     }
     return user != null;
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    return await _auth.signInWithGoogle();
   }
 }
