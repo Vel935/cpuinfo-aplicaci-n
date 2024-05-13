@@ -11,7 +11,7 @@ class cpuCrudPage extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(),
       body: Container(
-        color: Colors.grey, // Add grey background color
+        color: const Color(0xFF353535), // Add grey background color
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -73,11 +73,11 @@ class LargeButton extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                backgroundColor: const Color(0xFF353535),
+                backgroundColor: Colors.white,
               ),
               child: Text(
                 text,
-                style: const TextStyle(fontSize: 20.0, color: Colors.white),
+                style: const TextStyle(fontSize: 20.0, color: Colors.black),
               ),
             ),
           ),

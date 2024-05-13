@@ -247,28 +247,61 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text("Confirmar Eliminación"),
-                                content: Text(
-                                    "¿Estás seguro de que deseas eliminar este CPU?"),
+                                backgroundColor: const Color(
+                                    0xFF353535), // Cambiar el color de fondo
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      10.0), // Bordes redondeados
+                                ),
+                                title: Text(
+                                  "Confirmar Eliminación",
+                                  style: TextStyle(
+                                    color: color, // Color del texto del título
+                                    fontSize:
+                                        20.0, // Tamaño del texto del título
+                                    fontWeight: FontWeight.bold, // Negrita
+                                  ),
+                                ),
+                                content: const Text(
+                                  "¿Estás seguro de que deseas eliminar este CPU?",
+                                  style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors
+                                          .white // Tamaño del texto del contenido
+                                      ),
+                                ),
                                 actions: [
                                   TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(
-                                          context); // Cerrar el diálogo
-                                    },
-                                    child: Text("Cancelar"),
-                                  ),
+                                      onPressed: () {
+                                        Navigator.pop(
+                                            context); // Cerrar el diálogo
+                                      },
+                                      child: Text(
+                                        "Cancelar",
+                                        style: TextStyle(
+                                          color:
+                                              color, // Color del texto del botón
+                                        ),
+                                      )),
                                   ElevatedButton(
                                     onPressed: () {
                                       CpuProvider()
                                           .deactivateProcessor(processor.id);
-                                      Navigator.pop(
-                                          context); // Cerrar el diálogo
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'Se borró el procesador')));
+                                      Navigator.popUntil(
+                                          context,
+                                          ModalRoute.withName(
+                                              'cpuCrudPage')); // Cerrar el diálogo
                                     },
                                     style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color(
-                                            color.red)), // Estilo de botón rojo
-                                    child: Text("Eliminar"),
+                                      backgroundColor:
+                                          color, // Color de fondo del botón
+                                    ),
+                                    child: const Text("Eliminar",
+                                        style: TextStyle(color: Colors.white)),
                                   ),
                                 ],
                               );
@@ -276,6 +309,7 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                           );
                           return;
                         } else {
+                          // Add a closing parenthesis here
                           print("Ver información del procesador");
                           Navigator.pushNamed(context,
                               "viewProcesorInformation", // Pasa la instantánea de documento

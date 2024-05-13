@@ -63,5 +63,9 @@ class firebaseAuthService {
     }
   }
 
+  getCurrentUser() {
+    return _auth.currentUser;
+  }
+
   //#####################################################################################
 }
