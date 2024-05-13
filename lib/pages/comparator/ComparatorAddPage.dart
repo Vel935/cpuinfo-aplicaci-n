@@ -34,7 +34,7 @@ class ComparatorAddPage extends StatelessWidget {
                 child: Container(
                   color: (data1?["brand"] == "AMD")
                       ? Colors.orange
-                      : (data1?["brand"].toLowerCase() == "intel")
+                      : (data1?["brand"].toLowerCase == "INTEL")
                           ? Colors.blue
                           : Colors.white,
                   child: Column(
@@ -73,7 +73,7 @@ class ComparatorAddPage extends StatelessWidget {
                 child: Container(
                   color: (data2?["brand"] == "AMD")
                       ? Colors.orange
-                      : (data2?["brand"].toLowerCase() == "intel")
+                      : (data2?["brand"] == "INTEL")
                           ? Colors.blue
                           : Colors.white,
                   child: Column(

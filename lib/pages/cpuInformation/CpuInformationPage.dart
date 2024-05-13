@@ -47,8 +47,6 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
       }
     }
 
-    final chica = CpuComparatorProvider().getpalabra;
-
     return Scaffold(
       appBar: MyAppBar(),
       body: SingleChildScrollView(
