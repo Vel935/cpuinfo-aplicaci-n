@@ -89,13 +89,27 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
                 ),
                 TextFormField(
                   controller: _frequencyController,
-                  decoration: InputDecoration(labelText: 'Frecuencia (GHz)'),
+                  decoration:
+                      InputDecoration(labelText: 'Frecuencia Minima (GHz)'),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _maxFreqController,
+                  decoration:
+                      InputDecoration(labelText: 'Frecuencia Máxima (GHz)'),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   validator: _validateInput,
                 ),
                 TextFormField(
                   controller: _coresController,
                   decoration: InputDecoration(labelText: 'Núcleos'),
+                  keyboardType: TextInputType.number,
+                  validator: _validateInput,
+                ),
+                TextFormField(
+                  controller: _threadsController,
+                  decoration: InputDecoration(labelText: 'Hilos'),
                   keyboardType: TextInputType.number,
                   validator: _validateInput,
                 ),
@@ -141,18 +155,6 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
                 TextFormField(
                   controller: _priceController,
                   decoration: InputDecoration(labelText: 'Precio'),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  validator: _validateInput,
-                ),
-                TextFormField(
-                  controller: _threadsController,
-                  decoration: InputDecoration(labelText: 'Hilos'),
-                  keyboardType: TextInputType.number,
-                  validator: _validateInput,
-                ),
-                TextFormField(
-                  controller: _maxFreqController,
-                  decoration: InputDecoration(labelText: 'Frecuencia Máxima'),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   validator: _validateInput,
                 ),
