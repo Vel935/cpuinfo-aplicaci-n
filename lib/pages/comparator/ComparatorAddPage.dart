@@ -80,9 +80,9 @@ class ComparatorAddPage extends StatelessWidget {
                             "Proceso de",
                             data1 != null
                                 ? '${data1['lithography']}nm'
-                                : '0.0'),
+                                : '0nm'),
                         leftRow(
-                            "TD", data1 != null ? '${data1['tdp']}w' : '0.0'),
+                            "TD", data1 != null ? '${data1['tdp']}w' : '0w'),
                         leftRow(
                             "Soc", data1 != null ? '${data1['socket']}' : 'NA'),
                         leftRow(
@@ -93,8 +93,8 @@ class ComparatorAddPage extends StatelessWidget {
                             data1 != null ? '${data1['pciExpress']}' : 'NA'),
                         leftRow("Grafica ",
                             data1 != null ? '${data1['integratedGpu']}' : 'NA'),
-                        leftRow(
-                            "Pre", data1 != null ? '\$${data1['price']}' : '0'),
+                        leftRow("Pre",
+                            data1 != null ? '\$${data1['price']}' : '\$0'),
                         leftRow("Gene",
                             data1 != null ? '\$${data1['generation']}' : '0'),
                       ],
@@ -154,9 +154,9 @@ class ComparatorAddPage extends StatelessWidget {
                             " fabricacion",
                             data2 != null
                                 ? '${data2['lithography']}nm'
-                                : '0.0'),
+                                : '0nm'),
                         rightRow(
-                            "P", data2 != null ? '${data2['tdp']}w' : '0.0'),
+                            "P", data2 != null ? '${data2['tdp']}w' : '0w'),
                         rightRow(
                             "ket", data2 != null ? '${data2['socket']}' : 'NA'),
                         rightRow("ilia",
@@ -167,8 +167,8 @@ class ComparatorAddPage extends StatelessWidget {
                             data2 != null ? '${data2['pciExpress']}' : 'NA'),
                         rightRow("Integrada",
                             data2 != null ? '${data2['integratedGpu']}' : 'NA'),
-                        rightRow(
-                            "cio", data2 != null ? '\$${data2['price']}' : '0'),
+                        rightRow("cio",
+                            data2 != null ? '\$${data2['price']}' : '\$0'),
                         rightRow("racion",
                             data2 != null ? '${data2['generation']}' : '0'),
                       ],
