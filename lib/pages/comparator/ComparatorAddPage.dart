@@ -37,7 +37,11 @@ class ComparatorAddPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: Container(
-                    color: Colors.white,
+                    color: (data1?['brand'] == 'AMD')
+                        ? Colors.orange
+                        : (data1?['brand'] == 'INTEL')
+                            ? Colors.blue
+                            : Colors.white,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -103,7 +107,11 @@ class ComparatorAddPage extends StatelessWidget {
                 //),
                 Expanded(
                   child: Container(
-                    color: Colors.white,
+                    color: (data2?['brand'] == 'AMD')
+                        ? Colors.orange
+                        : (data2?['brand'] == 'INTEL')
+                            ? Colors.blue
+                            : Colors.white,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
