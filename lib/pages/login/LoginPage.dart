@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
         // backgroundColor: Colors.red,
         appBar: MyAppBar(),
         // backgroundColor: const Color(0xFF35353),
-        body: formLogin(context));
+        body: Container(child: formLogin(context)));
   }
 
   Form formLogin(BuildContext context) {
@@ -42,11 +42,6 @@ class _LoginPageState extends State<LoginPage> {
               .infinity, //le damos un ancho al contenedor, este ancho tiempo un ancho de toda la pantalla, como no sabemos los pixeles exactos que tiene usamos el double.infinity
           child: Stack(
             children: [
-              Positioned(
-                top: 60,
-                left: 25,
-                child: textLogin(),
-              ),
               SingleChildScrollView(
                 child: Column(
                   //ocupamos la columna para poner elementos uno debajo del otro
@@ -67,6 +62,9 @@ class _LoginPageState extends State<LoginPage> {
                     textFieldPassword(), //metodo que genera un campo de texto para ingresar la contraseña
                     buttonLogin(), //Metodo que genera un boton para enviar los datos, en este caso se llama ingresar
                     getGoogleButton(),
+                    SizedBox(
+                      height: 20,
+                    ),
                     textDontHaveAccount(
                         context) //metodo que genera dos textos en una fila "no tienes cuenta" y "registrate"
                   ],
@@ -255,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
   userValidationWithGoogle(BuildContext context) async {
     await controller.signInWithGoogle();
 
-    Navigator.pushNamedAndRemoveUntil(context, "home", (route) => false);
+    Navigator.pushNamedAndRemoveUntil(context, "firstPage", (route) => false);
   }
 
 //_____________________________________

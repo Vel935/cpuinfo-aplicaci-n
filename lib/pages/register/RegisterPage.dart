@@ -35,12 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
         key: _key,
         child: Column(
           children: [
-            Positioned(
-              top: 65,
-              left: 27,
-              child: _textRegister(),
-            ),
-            Positioned(top: 51, left: -5, child: _iconBack()),
+            // Positioned(top: 51, left: -5, child: _iconBack()),
             Container(
               width: double
                   .infinity, //ancho del contenedor, el double.infinity me centra los elementos
@@ -177,16 +172,5 @@ class _RegisterPageState extends State<RegisterPage> {
       height: 200, // Alto deseado de la imagen
       fit: BoxFit.contain, // Ajuste de la imagen dentro del contenedor
     );
-  }
-
-  Widget _iconBack() {
-    return IconButton(
-        //esta es una propiedad(creo) que recibe un evento onPressed y un icono, esta propiedad permite hacer botones con forma de iconos
-        onPressed:
-            () {}, //cuando presiones el boton se retroce a la pagina anterior en este caso el login
-        icon: const Icon(Icons.arrow_back_ios,
-            color: Colors
-                .white) //la propiedad icon recibe el icono que en este caso es una flecha (Icons.arrow_back_ios), y opcionalmente el color de este, en este caso es blanco
-        );
   }
 }

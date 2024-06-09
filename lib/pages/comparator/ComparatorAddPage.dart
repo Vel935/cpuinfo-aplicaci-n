@@ -62,7 +62,7 @@ class ComparatorAddPage extends StatelessWidget {
                               Navigator.pushNamed(context, 'viewAllProcessors');
                             },
                             child: Text(
-                                data1 != null ? '${data1['brand']}' : '+',
+                                data1 != null ? '${data1['fullName']}' : '+',
                                 style: selectTextButtonStyle()),
                           ),
                         ),
@@ -135,7 +135,7 @@ class ComparatorAddPage extends StatelessWidget {
                               Navigator.pushNamed(context, 'viewAllProcessors');
                             },
                             child: Text(
-                              data2 != null ? '${data2['brand']}' : '+',
+                              data2 != null ? '${data2['fullName']}' : '+',
                               style: selectTextButtonStyle(),
                             ),
                           ),
