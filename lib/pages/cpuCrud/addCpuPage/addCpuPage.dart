@@ -40,10 +40,12 @@ class _CreateCpuPageState extends State<CreateCpuPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
     return Scaffold(
       appBar: MyAppBar(),
       body: Container(
-        color: Colors.white,
+        color: isDarkMode ? Colors.grey[850] : Colors.white,
         child: SingleChildScrollView(
           child: Padding(
             padding:

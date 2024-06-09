@@ -8,22 +8,25 @@ import 'package:provider/provider.dart';
 class cpuCrudPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
     return Scaffold(
       appBar: MyAppBar(),
       body: Container(
-        color: const Color(0xFF353535), // Add grey background color
+        color: isDarkMode ? Colors.grey[850] : Colors.white,
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               LargeButton(
+                icon: Icons.add,
                 text: 'Añadir CPU',
                 onPressed: () {
                   Navigator.pushNamed(context, "addCPU");
                 },
-              ),
-              SizedBox(height: 20), // Espacio entre botones
+              ), // Espacio entre botones
               LargeButton(
+                icon: Icons.edit,
                 text: 'Modificar CPU',
                 onPressed: () {
                   Provider.of<CpuComparatorProvider>(context, listen: false)
@@ -31,8 +34,8 @@ class cpuCrudPage extends StatelessWidget {
                   Navigator.pushNamed(context, 'viewAllProcessors');
                 },
               ),
-              SizedBox(height: 20), // Espacio entre botones
               LargeButton(
+                icon: Icons.delete,
                 text: 'Eliminar CPU',
                 onPressed: () {
                   Provider.of<CpuComparatorProvider>(context, listen: false)
@@ -52,15 +55,19 @@ class cpuCrudPage extends StatelessWidget {
 class LargeButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final IconData icon;
 
   const LargeButton({
     Key? key,
     required this.text,
     required this.onPressed,
+    required this.icon,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
       child: Row(
@@ -71,13 +78,30 @@ class LargeButton extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.all(20.0),
                 shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    color: isDarkMode ? Colors.white : Colors.black,
+                    width: 2.0,
+                  ),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                backgroundColor: Colors.white,
+                backgroundColor: isDarkMode ? Colors.grey[850] : Colors.white,
               ),
-              child: Text(
-                text,
-                style: const TextStyle(fontSize: 20.0, color: Colors.black),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    text,
+                    style: TextStyle(
+                        fontSize: 30.0,
+                        color: isDarkMode ? Colors.white : Colors.black),
+                  ),
+                  icon != null
+                      ? Icon(
+                          icon,
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        )
+                      : Container(),
+                ],
               ),
             ),
           ),

@@ -3,6 +3,7 @@ import 'package:cpuinfo_application/main.dart';
 import 'package:cpuinfo_application/pages/cpuCrud/addCpuPage/addCpuPageController.dart';
 import 'package:cpuinfo_application/pages/cpuCrud/modifyCpu/modifyCpuController.dart';
 import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
+import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -46,6 +47,8 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
     final Map<String, dynamic> args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     final snapshot = args["data"] as DocumentSnapshot; // Cambio aquí
@@ -72,9 +75,9 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
     _idController.text = snapshot.id;
 
     return Scaffold(
-      appBar: mainAppBar(),
+      appBar: const MyAppBar(),
       body: Container(
-        color: Colors.white,
+        color: isDarkMode ? Colors.grey[850] : Colors.white,
         child: SingleChildScrollView(
           child: Padding(
             padding:

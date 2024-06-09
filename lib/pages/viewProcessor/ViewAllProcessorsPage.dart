@@ -232,11 +232,13 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                   color = Colors.black;
                 }
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
                     child: GestureDetector(
                       onTap: () {
+                        var theme = Theme.of(context);
+                        var isDarkMode = theme.brightness == Brightness.dark;
                         var selected = Provider.of<CpuComparatorProvider>(
                           context,
                           listen: false,
@@ -253,8 +255,9 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                backgroundColor: const Color(
-                                    0xFF353535), // Cambiar el color de fondo
+                                backgroundColor: isDarkMode
+                                    ? Colors.grey[850]
+                                    : Colors.white, // Cambiar el color de fondo
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                       10.0), // Bordes redondeados
@@ -268,12 +271,14 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                                     fontWeight: FontWeight.bold, // Negrita
                                   ),
                                 ),
-                                content: const Text(
+                                content: Text(
                                   "¿Estás seguro de que deseas eliminar este CPU?",
                                   style: TextStyle(
                                     fontSize: 16.0,
-                                    color: Colors
-                                        .white, // Tamaño del texto del contenido
+                                    color: isDarkMode
+                                        ? Colors.white
+                                        : Colors
+                                            .black, // Tamaño del texto del contenido
                                   ),
                                 ),
                                 actions: [
@@ -307,8 +312,11 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                                       backgroundColor:
                                           color, // Color de fondo del botón
                                     ),
-                                    child: const Text("Eliminar",
-                                        style: TextStyle(color: Colors.white)),
+                                    child: Text("Eliminar",
+                                        style: TextStyle(
+                                            color: isDarkMode
+                                                ? Colors.white
+                                                : Colors.black)),
                                   ),
                                 ],
                               );

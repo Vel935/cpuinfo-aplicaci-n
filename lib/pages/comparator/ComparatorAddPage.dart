@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
 import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
@@ -16,10 +16,25 @@ class ComparatorAddPage extends StatelessWidget {
     final comparatorProvider = Provider.of<CpuComparatorProvider>(context);
     final data1 = comparatorProvider.data1;
     final data2 = comparatorProvider.data2;
+
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF353535),
         title: const Text("CPU INFO", style: TextStyle(color: Colors.white)),
+        actions: [
+          Switch(
+            value: isDarkMode,
+            onChanged: (value) {
+              if (value) {
+                AdaptiveTheme.of(context).setDark();
+              } else {
+                AdaptiveTheme.of(context).setLight();
+              }
+            },
+          ),
+        ],
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -30,154 +45,174 @@ class ComparatorAddPage extends StatelessWidget {
           },
         ),
       ),
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    color: (data1?['brand'] == 'AMD')
-                        ? Colors.orange
-                        : (data1?['brand'] == 'INTEL')
-                            ? Colors.blue
-                            : Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            style: selectButtonStyle(),
-                            onPressed: () {
-                              Provider.of<CpuComparatorProvider>(context,
-                                      listen: false)
-                                  .setLastButtonPressed(
-                                      "right"); // Actualizar el último botón presionado
+      body: Container(
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: (data1?['brand'] == 'AMD')
+                          ? Colors.orange
+                          : (data1?['brand'] == 'INTEL')
+                              ? Colors.blue
+                              : isDarkMode
+                                  ? Colors.grey[850]
+                                  : Colors.white,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                              style: selectButtonStyle(),
+                              onPressed: () {
+                                Provider.of<CpuComparatorProvider>(context,
+                                        listen: false)
+                                    .setLastButtonPressed(
+                                        "right"); // Actualizar el último botón presionado
 
-                              Provider.of<CpuComparatorProvider>(context,
-                                      listen: false)
-                                  .updateState(true);
+                                Provider.of<CpuComparatorProvider>(context,
+                                        listen: false)
+                                    .updateState(true);
 
-                              Navigator.pushNamed(context, 'viewAllProcessors');
-                            },
-                            child: Text(
-                                data1 != null ? '${data1['fullName']}' : '+',
-                                style: selectTextButtonStyle()),
-                          ),
-                        ),
-                        leftRow(
-                            "Mod", data1 != null ? '${data1['model']}' : '0.0'),
-                        leftRow(
-                            "Co", data1 != null ? '${data1['cores']}' : '0'),
-                        leftRow(
-                            "Hil", data1 != null ? '${data1['threads']}' : '0'),
-                        leftRow("Frecuenc",
-                            data1 != null ? '${data1['maxFreq']}' : '0.0'),
-                        leftRow("Frecuenc",
-                            data1 != null ? '${data1['minfreq']}' : '0.0'),
-                        leftRow(
-                            "Proceso de",
-                            data1 != null
-                                ? '${data1['lithography']}nm'
-                                : '0nm'),
-                        leftRow(
-                            "TD", data1 != null ? '${data1['tdp']}w' : '0w'),
-                        leftRow(
-                            "Soc", data1 != null ? '${data1['socket']}' : 'NA'),
-                        leftRow(
-                            "Fam", data1 != null ? '${data1['family']}' : 'NA'),
-                        leftRow("Arquit",
-                            data1 != null ? '${data1['architecture']}' : 'NA'),
-                        leftRow("PCI E",
-                            data1 != null ? '${data1['pciExpress']}' : 'NA'),
-                        leftRow("Grafica ",
-                            data1 != null ? '${data1['integratedGpu']}' : 'NA'),
-                        leftRow("Pre",
-                            data1 != null ? '\$${data1['price']}' : '\$0'),
-                        leftRow("Gene",
-                            data1 != null ? '\$${data1['generation']}' : '0'),
-                      ],
-                    ),
-                  ),
-                ),
-                //Container(
-                //  width: 1,
-                //  color: Colors.black,
-                //),
-                Expanded(
-                  child: Container(
-                    color: (data2?['brand'] == 'AMD')
-                        ? Colors.orange
-                        : (data2?['brand'] == 'INTEL')
-                            ? Colors.blue
-                            : Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            style: selectButtonStyle(),
-                            onPressed: () {
-                              Provider.of<CpuComparatorProvider>(context,
-                                      listen: false)
-                                  .updateState(true);
-
-                              Provider.of<CpuComparatorProvider>(context,
-                                      listen: false)
-                                  .setLastButtonPressed(
-                                      "left"); // Actualizar el último botón presionado
-
-                              // Navigator.popAndPushNamed(
-                              //     context, 'viewAllProcessors');
-
-                              Navigator.pushNamed(context, 'viewAllProcessors');
-                            },
-                            child: Text(
-                              data2 != null ? '${data2['fullName']}' : '+',
-                              style: selectTextButtonStyle(),
+                                Navigator.pushNamed(
+                                    context, 'viewAllProcessors');
+                              },
+                              child: Text(
+                                  data1 != null ? '${data1['fullName']}' : '+',
+                                  style: selectTextButtonStyle()),
                             ),
                           ),
-                        ),
-                        rightRow(
-                            "elo", data2 != null ? '${data2['model']}' : '0'),
-                        rightRow(
-                            "res", data2 != null ? '${data2['cores']}' : '0'),
-                        rightRow(
-                            "os", data2 != null ? '${data2['threads']}' : '0'),
-                        rightRow("ia Maxima",
-                            data2 != null ? '${data2['maxFreq']}' : '0.0'),
-                        rightRow("ia Minima",
-                            data2 != null ? '${data2['minfreq']}' : '0.0'),
-                        rightRow(
-                            " fabricacion",
-                            data2 != null
-                                ? '${data2['lithography']}nm'
-                                : '0nm'),
-                        rightRow(
-                            "P", data2 != null ? '${data2['tdp']}w' : '0w'),
-                        rightRow(
-                            "ket", data2 != null ? '${data2['socket']}' : 'NA'),
-                        rightRow("ilia",
-                            data2 != null ? '${data2['family']}' : 'NA'),
-                        rightRow("ectura",
-                            data2 != null ? '${data2['architecture']}' : 'NA'),
-                        rightRow("xpress",
-                            data2 != null ? '${data2['pciExpress']}' : 'NA'),
-                        rightRow("Integrada",
-                            data2 != null ? '${data2['integratedGpu']}' : 'NA'),
-                        rightRow("cio",
-                            data2 != null ? '\$${data2['price']}' : '\$0'),
-                        rightRow("racion",
-                            data2 != null ? '${data2['generation']}' : '0'),
-                      ],
+                          leftRow("Mod",
+                              data1 != null ? '${data1['model']}' : '0.0'),
+                          leftRow(
+                              "Co", data1 != null ? '${data1['cores']}' : '0'),
+                          leftRow("Hil",
+                              data1 != null ? '${data1['threads']}' : '0'),
+                          leftRow("Frecuenc",
+                              data1 != null ? '${data1['maxFreq']}' : '0.0'),
+                          leftRow("Frecuenc",
+                              data1 != null ? '${data1['minfreq']}' : '0.0'),
+                          leftRow(
+                              "Proceso de",
+                              data1 != null
+                                  ? '${data1['lithography']}nm'
+                                  : '0nm'),
+                          leftRow(
+                              "TD", data1 != null ? '${data1['tdp']}w' : '0w'),
+                          leftRow("Soc",
+                              data1 != null ? '${data1['socket']}' : 'NA'),
+                          leftRow("Fam",
+                              data1 != null ? '${data1['family']}' : 'NA'),
+                          leftRow(
+                              "Arquit",
+                              data1 != null
+                                  ? '${data1['architecture']}'
+                                  : 'NA'),
+                          leftRow("PCI E",
+                              data1 != null ? '${data1['pciExpress']}' : 'NA'),
+                          leftRow(
+                              "Grafica ",
+                              data1 != null
+                                  ? '${data1['integratedGpu']}'
+                                  : 'NA'),
+                          leftRow("Pre",
+                              data1 != null ? '\$${data1['price']}' : '\$0'),
+                          leftRow("Gene",
+                              data1 != null ? '\$${data1['generation']}' : '0'),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  //Container(
+                  //  width: 1,
+                  //  color: Colors.black,
+                  //),
+                  Expanded(
+                    child: Container(
+                      color: (data2?['brand'] == 'AMD')
+                          ? Colors.orange
+                          : (data2?['brand'] == 'INTEL')
+                              ? Colors.blue
+                              : isDarkMode
+                                  ? Colors.grey[850]
+                                  : Colors.white,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                              style: selectButtonStyle(),
+                              onPressed: () {
+                                Provider.of<CpuComparatorProvider>(context,
+                                        listen: false)
+                                    .updateState(true);
+
+                                Provider.of<CpuComparatorProvider>(context,
+                                        listen: false)
+                                    .setLastButtonPressed(
+                                        "left"); // Actualizar el último botón presionado
+
+                                // Navigator.popAndPushNamed(
+                                //     context, 'viewAllProcessors');
+
+                                Navigator.pushNamed(
+                                    context, 'viewAllProcessors');
+                              },
+                              child: Text(
+                                data2 != null ? '${data2['fullName']}' : '+',
+                                style: selectTextButtonStyle(),
+                              ),
+                            ),
+                          ),
+                          rightRow(
+                              "elo", data2 != null ? '${data2['model']}' : '0'),
+                          rightRow(
+                              "res", data2 != null ? '${data2['cores']}' : '0'),
+                          rightRow("os",
+                              data2 != null ? '${data2['threads']}' : '0'),
+                          rightRow("ia Maxima",
+                              data2 != null ? '${data2['maxFreq']}' : '0.0'),
+                          rightRow("ia Minima",
+                              data2 != null ? '${data2['minfreq']}' : '0.0'),
+                          rightRow(
+                              " fabricacion",
+                              data2 != null
+                                  ? '${data2['lithography']}nm'
+                                  : '0nm'),
+                          rightRow(
+                              "P", data2 != null ? '${data2['tdp']}w' : '0w'),
+                          rightRow("ket",
+                              data2 != null ? '${data2['socket']}' : 'NA'),
+                          rightRow("ilia",
+                              data2 != null ? '${data2['family']}' : 'NA'),
+                          rightRow(
+                              "ectura",
+                              data2 != null
+                                  ? '${data2['architecture']}'
+                                  : 'NA'),
+                          rightRow("xpress",
+                              data2 != null ? '${data2['pciExpress']}' : 'NA'),
+                          rightRow(
+                              "Integrada",
+                              data2 != null
+                                  ? '${data2['integratedGpu']}'
+                                  : 'NA'),
+                          rightRow("cio",
+                              data2 != null ? '\$${data2['price']}' : '\$0'),
+                          rightRow("racion",
+                              data2 != null ? '${data2['generation']}' : '0'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
