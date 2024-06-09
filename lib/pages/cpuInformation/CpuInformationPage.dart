@@ -27,6 +27,9 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
     // final lastButtonPressed = CpuComparatorProvider().lastButtonPressed;
     final lastButtonPressed = Provider.of<CpuComparatorProvider>(context);
 
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+
     Color color() {
       if (data['brand'] == 'INTEL') {
         return Colors.blue;
@@ -38,9 +41,7 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
     }
 
     Color setLetterColor() {
-      if (data['brand'] == 'INTEL') {
-        return Colors.white;
-      } else if (data['brand'] == 'AMD') {
+      if (isDarkMode) {
         return Colors.white;
       } else {
         return Colors.black;
@@ -52,7 +53,8 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(3),
-          decoration: BoxDecoration(color: Color(0xFF353535)),
+          decoration: BoxDecoration(
+              color: isDarkMode ? Colors.grey[850] : Colors.white),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,

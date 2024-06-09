@@ -37,8 +37,10 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: const Color(0xFF353535),
+      backgroundColor: isDarkMode ? Colors.grey[850] : Colors.white,
       appBar: MyAppBar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -68,14 +70,15 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
-                      color: Colors.white),
+                      color: (isDarkMode ? Colors.white : Colors.grey[850])),
                 ),
                 SizedBox(height: 10),
                 DropdownButton(
                   value: null,
-                  hint: const Text(
+                  hint: Text(
                     'Seleccionar etiquetas',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                        color: (isDarkMode ? Colors.white : Colors.grey[850])),
                   ),
                   items: [...availableTags, ...availableFamilies].map((tag) {
                     return DropdownMenuItem(
