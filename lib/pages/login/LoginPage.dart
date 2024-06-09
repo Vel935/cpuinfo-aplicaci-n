@@ -161,6 +161,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget getGoogleButton() {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
     return GestureDetector(
       onTap: () {
         userValidationWithGoogle(context);
@@ -169,7 +171,10 @@ class _LoginPageState extends State<LoginPage> {
         width: 300, // Ancho del contenedor
         padding: EdgeInsets.all(20), // Relleno dentro del contenedor
         decoration: BoxDecoration(
-          color: Colors.white, // Color de fondo del contenedor
+          color: isDarkMode
+              ? Colors.grey[850]
+              : Color.fromARGB(
+                  255, 232, 232, 232), // Color de fondo del contenedor
           borderRadius: BorderRadius.circular(20), // Bordes redondeados
         ),
         child: Row(
