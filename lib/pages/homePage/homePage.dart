@@ -1,13 +1,39 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
 import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool isAdmin = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkUserRole();
+  }
+
+  Future<void> _checkUserRole() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      setState(() {
+        isAdmin = userDoc['role'] == 'Administrador';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Obtener el tema actual
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
 
@@ -16,7 +42,6 @@ class HomePage extends StatelessWidget {
       body: Container(
         alignment: Alignment.center,
         width: double.infinity,
-        // Cambiar el fondo basado en el modo oscuro o claro
         color: isDarkMode ? Colors.grey[850] : Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(15.0),
@@ -28,8 +53,7 @@ class HomePage extends StatelessWidget {
                 '¿Qué quieres hacer?',
                 style: TextStyle(fontSize: 24.0),
               ),
-              const SizedBox(
-                  height: 20), // Separación entre el texto y los botones
+              const SizedBox(height: 20),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -44,8 +68,6 @@ class HomePage extends StatelessWidget {
                                 context,
                                 listen: false,
                               ).updateActualPage("");
-                              // Navigator.pushNamed(context, 'comparatormenu',
-                              //     arguments: {"data": ""});
                               Navigator.pushNamed(context, "comparatormenu");
                             },
                             child: Text(
@@ -56,7 +78,7 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10), // Separación entre los botones
+                    const SizedBox(height: 10),
                     Row(
                       children: [
                         Expanded(
@@ -79,23 +101,24 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10), // Separación entre los botones
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            style: homeButtonStyle(isDarkMode),
-                            onPressed: () {
-                              Navigator.pushNamed(context, "cpuCrudPage");
-                            },
-                            child: Text(
-                              'Modificar CPU',
-                              style: homeTextButtonStyle(isDarkMode),
+                    const SizedBox(height: 10),
+                    if (isAdmin)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: homeButtonStyle(isDarkMode),
+                              onPressed: () {
+                                Navigator.pushNamed(context, "cpuCrudPage");
+                              },
+                              child: Text(
+                                'Modificar CPU',
+                                style: homeTextButtonStyle(isDarkMode),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
                   ],
                 ),
               ),
@@ -106,11 +129,9 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // Estilo de texto basado en el modo oscuro o claro
   TextStyle homeTextButtonStyle(bool isDarkMode) => TextStyle(
       color: isDarkMode ? Colors.white : Colors.black, fontSize: 20.0);
 
-  // Estilo de botones basado en el modo oscuro o claro
   ButtonStyle homeButtonStyle(bool isDarkMode) {
     return ButtonStyle(
       minimumSize:
