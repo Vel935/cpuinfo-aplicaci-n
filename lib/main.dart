@@ -15,11 +15,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cpuinfo_application/firebase_options.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final savedThemeMode = await AdaptiveTheme.getThemeMode();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -27,35 +27,50 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (_) => UserProvider()),
       ChangeNotifierProvider(create: (_) => CpuProvider()),
-      ChangeNotifierProvider(create: (_) => CpuComparatorProvider())
+      ChangeNotifierProvider(create: (_) => CpuComparatorProvider()),
     ],
-    child: MainApp(),
+    child: MainApp(savedThemeMode: savedThemeMode),
   ));
 }
 
 class MainApp extends StatelessWidget {
-  MainApp({super.key});
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  MainApp({super.key, this.savedThemeMode});
+
+  final AdaptiveThemeMode? savedThemeMode;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      key: navigatorKey,
-      title: "CPU INFO",
-      debugShowCheckedModeBanner: false,
-      initialRoute: "login",
-      routes: {
-        "login": (BuildContext context) => LoginPage(),
-        "register": (context) => RegisterPage(),
-        "firstPage": (context) => FirstPage(),
-        "home": (context) => HomePage(),
-        "comparatormenu": (context) => const ComparatorAddPage(),
-        "cpuCrudPage": (context) => cpuCrudPage(),
-        "addCPU": (context) => CreateCpuPage(),
-        "viewAllProcessors": (context) => const ViewAllProcessorsPage(),
-        "viewProcesorInformation": (context) => CpuInformationPage(),
-        "modifyCPU": (context) => ModifyCpuPage(),
-      },
+    return AdaptiveTheme(
+      light: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.light,
+        colorSchemeSeed: Colors.blue,
+      ),
+      dark: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        colorSchemeSeed: Colors.blue,
+      ),
+      initial: savedThemeMode ?? AdaptiveThemeMode.light,
+      builder: (theme, darkTheme) => MaterialApp(
+        title: 'CPU INFO',
+        theme: theme,
+        darkTheme: darkTheme,
+        debugShowCheckedModeBanner: false,
+        initialRoute: "login",
+        routes: {
+          "login": (BuildContext context) => LoginPage(),
+          "register": (context) => RegisterPage(),
+          "firstPage": (context) => FirstPage(),
+          "home": (context) => HomePage(),
+          "comparatormenu": (context) => const ComparatorAddPage(),
+          "cpuCrudPage": (context) => cpuCrudPage(),
+          "addCPU": (context) => CreateCpuPage(),
+          "viewAllProcessors": (context) => const ViewAllProcessorsPage(),
+          "viewProcesorInformation": (context) => CpuInformationPage(),
+          "modifyCPU": (context) => ModifyCpuPage(),
+        },
+      ),
     );
   }
 }

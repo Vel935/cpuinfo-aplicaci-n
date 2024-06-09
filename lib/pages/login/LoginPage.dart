@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget textLogin() {
     //funcion que retorna un texto que dice LOGIN
-    return const Text('LOGIN',
+    return const Text('Iniciar Sesión',
         style: TextStyle(
             //text tiene una propiedad llamada style, que permite modificar los estilos del texto
             color: Colors.white, //esto cambia el color del texto

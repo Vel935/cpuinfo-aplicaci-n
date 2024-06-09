@@ -1,30 +1,29 @@
-import 'package:cpuinfo_application/main.dart';
-import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
-import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:cpuinfo_application/providers/cpuComparatorProvider.dart';
+import 'package:cpuinfo_application/widgets/CustomAppBar.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Obtener el tema actual
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: const MyAppBar(),
       body: Container(
-        alignment: Alignment.topLeft,
+        alignment: Alignment.center,
         width: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/img/background.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
+        // Cambiar el fondo basado en el modo oscuro o claro
+        color: isDarkMode ? Colors.grey[850] : Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text(
                 '¿Qué quieres hacer?',
@@ -32,24 +31,21 @@ class HomePage extends StatelessWidget {
               ),
               const SizedBox(
                   height: 20), // Separación entre el texto y los botones
-              Padding(
-                padding: const EdgeInsets.only(right: 110.0),
+              Expanded(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Row(
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            style: homeButtonStyle(),
+                            style: homeButtonStyle(isDarkMode),
                             onPressed: () {
-                              // Navigator.pushNamed(context, 'comparatormenu',
-                              //     arguments: {"data": ""});
                               Navigator.pushNamed(context, "comparatormenu");
                             },
                             child: Text(
                               'Comparar',
-                              style: homeTextButtonStyle(),
-                              //agrandar la letra
+                              style: homeTextButtonStyle(isDarkMode),
                             ),
                           ),
                         ),
@@ -60,7 +56,7 @@ class HomePage extends StatelessWidget {
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            style: homeButtonStyle(),
+                            style: homeButtonStyle(isDarkMode),
                             onPressed: () {
                               Provider.of<CpuComparatorProvider>(context,
                                       listen: false)
@@ -69,12 +65,10 @@ class HomePage extends StatelessWidget {
                                       listen: false)
                                   .updateActualPage("");
                               Navigator.pushNamed(context, 'viewAllProcessors');
-                              // Acción para el botón "Ver"
-                              // Puedes agregar aquí la navegación o acción deseada
                             },
                             child: Text(
                               'Ver',
-                              style: homeTextButtonStyle(),
+                              style: homeTextButtonStyle(isDarkMode),
                             ),
                           ),
                         ),
@@ -85,13 +79,13 @@ class HomePage extends StatelessWidget {
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            style: homeButtonStyle(),
+                            style: homeButtonStyle(isDarkMode),
                             onPressed: () {
                               Navigator.pushNamed(context, "cpuCrudPage");
                             },
                             child: Text(
                               'Modificar CPU',
-                              style: homeTextButtonStyle(),
+                              style: homeTextButtonStyle(isDarkMode),
                             ),
                           ),
                         ),
@@ -107,19 +101,24 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  TextStyle homeTextButtonStyle() =>
-      TextStyle(color: Colors.black, fontSize: 20.0);
+  // Estilo de texto basado en el modo oscuro o claro
+  TextStyle homeTextButtonStyle(bool isDarkMode) => TextStyle(
+      color: isDarkMode ? Colors.white : Colors.black, fontSize: 20.0);
 
-  ButtonStyle homeButtonStyle() {
+  // Estilo de botones basado en el modo oscuro o claro
+  ButtonStyle homeButtonStyle(bool isDarkMode) {
     return ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(Color(0xFFCBD7DD)),
+      minimumSize:
+          MaterialStateProperty.all<Size>(const Size(double.infinity, 150)),
+      backgroundColor: MaterialStateProperty.all<Color>(
+          isDarkMode ? Color(0xFF444444) : Color(0xFFCBD7DD)),
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
       ),
       side: MaterialStateProperty.all<BorderSide>(
-        const BorderSide(color: Colors.black, width: 2),
+        BorderSide(color: isDarkMode ? Colors.white : Colors.black, width: 2),
       ),
     );
   }
