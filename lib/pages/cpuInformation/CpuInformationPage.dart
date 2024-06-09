@@ -62,7 +62,7 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
                 fullProcessorName(color, data, setLetterColor),
                 Row(
                   children: [
-                    mainSpecsBoxes(color, data, "Nucleos",
+                    mainSpecsBoxes(color, data, "Núcleos",
                         data['cores'].toString(), setLetterColor),
                     mainSpecsBoxes(color, data, "Frecuencia",
                         "${data['maxFreq']} GHz", setLetterColor),
@@ -83,7 +83,7 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
                     data['brand'].toString()),
                 specsLine(color, setLetterColor, data, "Modelo",
                     data['model'].toString()),
-                specsLine(color, setLetterColor, data, "Generacion",
+                specsLine(color, setLetterColor, data, "Generación",
                     data['generation'].toString()),
                 specsLine(color, setLetterColor, data, "Familia",
                     data['family'].toString()),
@@ -95,13 +95,13 @@ class _CpuInformationPageState extends State<CpuInformationPage> {
                     data['integratedGpu'].toString()),
                 specsLine(color, setLetterColor, data, "Arquitectura",
                     data['architecture'].toString()),
-                specsLine(color, setLetterColor, data, "Proceso de Fabricacion",
+                specsLine(color, setLetterColor, data, "Proceso de fabricación",
                     "${data['lithography']} nm"),
                 specsLine(
                     color, setLetterColor, data, "TDP", "${data['tdp']}" "W"),
                 specsLine(
                     color, setLetterColor, data, "Hilos", "${data['threads']}"),
-                specsLine(color, setLetterColor, data, "Version PCIe",
+                specsLine(color, setLetterColor, data, "Versión PCIe",
                     "${data['pciExpress']}"),
               ],
             ),

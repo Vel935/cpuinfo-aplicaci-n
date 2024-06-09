@@ -114,7 +114,7 @@ class ComparatorAddPage extends StatelessWidget {
                           leftRow("PCI E",
                               data1 != null ? '${data1['pciExpress']}' : 'NA'),
                           leftRow(
-                              "Grafica ",
+                              "Gráfica ",
                               data1 != null
                                   ? '${data1['integratedGpu']}'
                                   : 'NA'),
@@ -174,12 +174,12 @@ class ComparatorAddPage extends StatelessWidget {
                               "res", data2 != null ? '${data2['cores']}' : '0'),
                           rightRow("os",
                               data2 != null ? '${data2['threads']}' : '0'),
-                          rightRow("ia Maxima",
+                          rightRow("ia Máxima",
                               data2 != null ? '${data2['maxFreq']}' : '0.0'),
-                          rightRow("ia Minima",
+                          rightRow("ia Mínima",
                               data2 != null ? '${data2['minfreq']}' : '0.0'),
                           rightRow(
-                              " fabricacion",
+                              " fabricación",
                               data2 != null
                                   ? '${data2['lithography']}nm'
                                   : '0nm'),
@@ -203,7 +203,7 @@ class ComparatorAddPage extends StatelessWidget {
                                   : 'NA'),
                           rightRow("cio",
                               data2 != null ? '\$${data2['price']}' : '\$0'),
-                          rightRow("racion",
+                          rightRow("ración",
                               data2 != null ? '${data2['generation']}' : '0'),
                         ],
                       ),

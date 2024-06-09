@@ -227,7 +227,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> userValidation() async {
     print(controller.login(user.mail, user.password));
     if (await controller.signIn(user.mail, user.password)) {
-      Navigator.pushNamed(context, "firstPage");
+      Navigator.pushNamedAndRemoveUntil(context, "firstPage", (route) => false);
       //Navigator.popAndPushNamed(context, 'firstPage');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
