@@ -41,6 +41,12 @@ class HomePage extends StatelessWidget {
                           child: ElevatedButton(
                             style: homeButtonStyle(isDarkMode),
                             onPressed: () {
+                              Provider.of<CpuComparatorProvider>(
+                                context,
+                                listen: false,
+                              ).updateActualPage("");
+                              // Navigator.pushNamed(context, 'comparatormenu',
+                              //     arguments: {"data": ""});
                               Navigator.pushNamed(context, "comparatormenu");
                             },
                             child: Text(

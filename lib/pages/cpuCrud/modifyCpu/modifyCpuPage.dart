@@ -141,7 +141,6 @@ class _ModifyCpuPageState extends State<ModifyCpuPage> {
                 TextFormField(
                   controller: _modelController,
                   decoration: InputDecoration(labelText: 'Modelo'),
-                  keyboardType: TextInputType.number,
                   validator: _validateInput,
                 ),
                 SizedBox(height: 20),
