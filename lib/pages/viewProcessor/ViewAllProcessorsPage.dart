@@ -231,6 +231,9 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                 } else {
                   color = Colors.black;
                 }
+                final theme = Theme.of(context);
+                var isDarkMode = theme.brightness == Brightness.dark;
+                ;
                 return Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0),
                   child: ClipRRect(
@@ -336,8 +339,10 @@ class _ViewAllProcessorsPageState extends State<ViewAllProcessorsPage> {
                         child: ListTile(
                           title: Text(
                             name,
-                            style: const TextStyle(
-                                color: Colors.white,
+                            style: TextStyle(
+                                color: isDarkMode
+                                    ? Colors.white
+                                    : Colors.grey[850],
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
