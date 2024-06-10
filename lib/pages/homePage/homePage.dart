@@ -49,11 +49,26 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
-                '¿Qué quieres hacer?',
-                style: TextStyle(fontSize: 24.0),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Text('¿Qué quieres hacer?',
+                    style: TextStyle(
+                        fontSize: 34.0,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 131, 199, 255),
+                        fontFamily: 'Roboto',
+                        letterSpacing: 1.5,
+                        shadows: [
+                          Shadow(
+                            color: isDarkMode
+                                ? Colors.black
+                                : Color.fromARGB(255, 75, 116, 149),
+                            offset: const Offset(1, 2),
+                            blurRadius: 2,
+                          )
+                        ])),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -70,9 +85,15 @@ class _HomePageState extends State<HomePage> {
                               ).updateActualPage("");
                               Navigator.pushNamed(context, "comparatormenu");
                             },
-                            child: Text(
-                              'Comparar',
-                              style: homeTextButtonStyle(isDarkMode),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Comparar',
+                                  style: homeTextButtonStyle(isDarkMode),
+                                ),
+                                Icon(Icons.compare_arrows_rounded, size: 60.0),
+                              ],
                             ),
                           ),
                         ),
@@ -93,9 +114,18 @@ class _HomePageState extends State<HomePage> {
                                   .updateActualPage("");
                               Navigator.pushNamed(context, 'viewAllProcessors');
                             },
-                            child: Text(
-                              'Ver',
-                              style: homeTextButtonStyle(isDarkMode),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Ver',
+                                  style: homeTextButtonStyle(isDarkMode),
+                                ),
+                                Icon(
+                                  Icons.remove_red_eye_rounded,
+                                  size: 60.0,
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -111,9 +141,19 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 Navigator.pushNamed(context, "cpuCrudPage");
                               },
-                              child: Text(
-                                'Modificar CPU',
-                                style: homeTextButtonStyle(isDarkMode),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Modificar CPU',
+                                    style: homeTextButtonStyle(isDarkMode),
+                                  ),
+                                  Icon(
+                                    Icons.edit,
+                                    size: 60.0,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -130,14 +170,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   TextStyle homeTextButtonStyle(bool isDarkMode) => TextStyle(
-      color: isDarkMode ? Colors.white : Colors.black, fontSize: 20.0);
+      color: isDarkMode ? Colors.white : Colors.black, fontSize: 30.0);
 
   ButtonStyle homeButtonStyle(bool isDarkMode) {
     return ButtonStyle(
       minimumSize:
           MaterialStateProperty.all<Size>(const Size(double.infinity, 150)),
       backgroundColor: MaterialStateProperty.all<Color>(
-          isDarkMode ? Color(0xFF444444) : Color(0xFFCBD7DD)),
+          isDarkMode ? Color(0xFF444444) : Color.fromARGB(255, 131, 199, 255)),
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
