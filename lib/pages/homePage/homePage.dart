@@ -52,8 +52,9 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: Text('¿Qué quieres hacer?',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 34.0,
+                        fontSize: 27.0,
                         fontWeight: FontWeight.bold,
                         color: Color.fromARGB(255, 131, 199, 255),
                         fontFamily: 'Roboto',
@@ -62,9 +63,9 @@ class _HomePageState extends State<HomePage> {
                           Shadow(
                             color: isDarkMode
                                 ? Colors.black
-                                : Color.fromARGB(255, 75, 116, 149),
+                                : Color.fromARGB(255, 0, 0, 0),
                             offset: const Offset(1, 2),
-                            blurRadius: 2,
+                            blurRadius: 5,
                           )
                         ])),
               ),
